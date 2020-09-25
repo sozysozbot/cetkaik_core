@@ -3,10 +3,6 @@
 
 #[cfg(test)]
 mod tests {
-    #[test]
-    fn it_works() {
-        assert_eq!(2 + 2, 4);
-    }
 }
 
 #[derive(PartialEq, Eq, Clone, Copy, Debug)]
@@ -16,6 +12,23 @@ pub enum Color {
 
     /// Black, 黒
     Huok2,
+}
+
+/// Serializes [`Color`](./enum.Color.html).
+/// # Examples
+/// ```
+/// use cetkaik_core::*;
+///
+/// assert_eq!(serialize_color(Color::Kok1), "赤");
+/// assert_eq!(serialize_color(Color::Huok2), "黒");
+/// ```
+///
+#[must_use]
+pub fn serialize_color(color: Color) -> &'static str {
+    match color {
+        Color::Huok2 => "黒",
+        Color::Kok1 => "赤",
+    }
 }
 
 #[derive(PartialEq, Eq, Clone, Copy, Debug)]
@@ -49,6 +62,31 @@ pub enum Profession {
 
     /// King, 王, ales
     Io,
+}
+
+/// Serializes [`Profession`](./enum.Profession.html).
+/// # Examples
+/// ```
+/// use cetkaik_core::*;
+///
+/// assert_eq!(serialize_prof(Profession::Nuak1), "船");
+/// assert_eq!(serialize_prof(Profession::Kaun1), "車");
+/// ```
+///
+#[must_use]
+pub fn serialize_prof(prof: Profession) -> &'static str {
+    match prof {
+        Profession::Nuak1 => "船",
+        Profession::Kauk2 => "兵",
+        Profession::Gua2 => "弓",
+        Profession::Kaun1 => "車",
+        Profession::Dau2 => "虎",
+        Profession::Maun1 => "馬",
+        Profession::Kua2 => "筆",
+        Profession::Tuk2 => "巫",
+        Profession::Uai1 => "将",
+        Profession::Io => "王",
+    }
 }
 
 use std::str::FromStr;
@@ -178,6 +216,39 @@ pub mod relative {
             || (row == 3 && col == 4)
             || (row == 5 && col == 4)
             || (row == 6 && col == 4)
+    }
+
+    fn serialize_side(side: Side) -> &'static str {
+        match side {
+            Side::Upward => "↑",
+            Side::Downward => "↓",
+        }
+    }
+    
+    /// Serializes [`Piece`](./enum.Piece.html).
+    /// # Examples
+    /// ```
+    /// use cetkaik_core::*;
+    /// use cetkaik_core::relative::*;
+    ///
+    /// assert_eq!(serialize_piece(Piece::Tam2), "皇");
+    /// assert_eq!(serialize_piece(Piece::NonTam2Piece {
+    ///     prof: Profession::Uai1,
+    ///     color: Color::Kok1,
+    ///     side: Side::Downward
+    /// }), "赤将↓");
+    /// ```
+    #[must_use]
+    pub fn serialize_piece(p: Piece) -> String {
+        match p {
+            Piece::Tam2 => "皇".to_string(),
+            Piece::NonTam2Piece { prof, color, side } => format!(
+                "{}{}{}",
+                super::serialize_color(color),
+                super::serialize_prof(prof),
+                serialize_side(side)
+            ),
+        }
     }
 }
 
