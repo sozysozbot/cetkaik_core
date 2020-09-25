@@ -95,16 +95,18 @@ impl FromStr for Profession {
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let s = s.to_lowercase();
         match &*s {
-            "vessel" | "船" | "felkana" | "nuak1" => Ok(Profession::Nuak1),
-            "pawn" | "兵" | "elmer" | "kauk2" => Ok(Profession::Kauk2),
-            "rook" | "弓" | "gustuer" | "gua2" => Ok(Profession::Gua2),
-            "bishop" | "車" | "vadyrd" | "kaun1" => Ok(Profession::Kaun1),
-            "tiger" | "虎" | "stistyst" | "dau2" => Ok(Profession::Dau2),
-            "horse" | "馬" | "dodor" | "maun1" => Ok(Profession::Maun1),
-            "clerk" | "筆" | "kua" | "kua2" => Ok(Profession::Kua2),
-            "shaman" | "巫" | "terlsk" | "tuk2" => Ok(Profession::Tuk2),
-            "general" | "将" | "varxle" | "uai1" => Ok(Profession::Uai1),
-            "king" | "王" | "ales" | "io" => Ok(Profession::Io),
+            "vessel" | "船" | "felkana" | "nuak1" | "muak1" | "pelkana" | "pijume" | "muak" => {
+                Ok(Profession::Nuak1)
+            }
+            "pawn" | "兵" | "elmer" | "kauk2" | "elme" | "kauk" => Ok(Profession::Kauk2),
+            "rook" | "弓" | "gustuer" | "gua2" | "kucte" | "kuctu" => Ok(Profession::Gua2),
+            "bishop" | "車" | "车" | "vadyrd" | "kaun1" | "badut" | "xije" | "kaun" => Ok(Profession::Kaun1),
+            "tiger" | "虎" | "stistyst" | "dau2" | "cictus" | "cucit" | "dau" => Ok(Profession::Dau2),
+            "horse" | "馬" | "马" | "dodor" | "maun1" | "dodo" | "maun" => Ok(Profession::Maun1),
+            "clerk" | "筆" | "笔" | "kua" | "kua2" | "kuwa" => Ok(Profession::Kua2),
+            "shaman" | "巫" | "terlsk" | "tuk2" | "tamcuk" | "tancuk" => Ok(Profession::Tuk2),
+            "general" | "将" | "varxle" | "uai1" | "baxule" | "xan" | "wai" => Ok(Profession::Uai1),
+            "king" | "王" | "ales" | "io" | "xet" | "caupla" => Ok(Profession::Io),
             _ => Err(()),
         }
     }
@@ -115,8 +117,8 @@ impl FromStr for Color {
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         match s {
-            "red" | "赤" | "kok1" => Ok(Color::Kok1),
-            "black" | "黒" | "Huok2" => Ok(Color::Huok2),
+            "red" | "赤" | "kok1" | "红" | "紅" => Ok(Color::Kok1),
+            "black" | "黒" | "Huok2" | "黑" => Ok(Color::Huok2),
             _ => Err(()),
         }
     }
