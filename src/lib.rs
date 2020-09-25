@@ -146,7 +146,7 @@ pub mod relative {
         },
     }
 
-    #[allow(clippy::must_use_candidate)]
+    #[must_use]
     pub fn rotate_piece_or_null(p: Option<Piece>) -> Option<Piece> {
         let p = p?;
         match p {
@@ -157,6 +157,27 @@ pub mod relative {
                 side: !side,
             }),
         }
+    }
+
+    /// [row, col]
+    pub type Coord = [usize; 2];
+
+    #[must_use]
+    pub fn rotate_coord(c: Coord) -> Coord {
+        [(8 - c[0]), (8 - c[1])]
+    }
+
+    #[must_use]
+    pub fn is_water([row, col]: Coord) -> bool {
+        (row == 4 && col == 2)
+            || (row == 4 && col == 3)
+            || (row == 4 && col == 4)
+            || (row == 4 && col == 5)
+            || (row == 4 && col == 6)
+            || (row == 2 && col == 4)
+            || (row == 3 && col == 4)
+            || (row == 5 && col == 4)
+            || (row == 6 && col == 4)
     }
 }
 
