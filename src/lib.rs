@@ -85,6 +85,81 @@ impl FromStr for Color {
     }
 }
 
+pub mod relative {
+    use super::*;
+    #[derive(Copy, Clone, Debug, Eq, PartialEq)]
+    pub enum Side {
+        Upward,
+        Downward,
+    }
+
+    impl std::ops::Not for Side {
+        type Output = Side;
+    
+        fn not(self) -> Self::Output {
+            match self {
+                Side::Upward => Side::Downward,
+                Side::Downward => Side::Upward,
+            }
+        }
+    }
+
+    #[derive(Copy, Clone, Debug, Eq, PartialEq)]
+    pub struct NonTam2PieceDownward {
+        pub color: Color,
+        pub prof: Profession,
+    }
+
+    #[derive(Copy, Clone, Debug, Eq, PartialEq)]
+    pub struct NonTam2PieceUpward {
+        pub color: Color,
+        pub prof: Profession,
+    }
+
+    impl From<NonTam2PieceUpward> for Piece {
+        fn from(from: NonTam2PieceUpward) -> Piece {
+            Piece::NonTam2Piece {
+                color: from.color,
+                prof: from.prof,
+                side: Side::Upward,
+            }
+        }
+    }
+    
+    impl From<NonTam2PieceDownward> for Piece {
+        fn from(from: NonTam2PieceDownward) -> Piece {
+            Piece::NonTam2Piece {
+                color: from.color,
+                prof: from.prof,
+                side: Side::Downward,
+            }
+        }
+    }
+    
+    #[derive(Copy, Clone, Debug, Eq, PartialEq)]
+    pub enum Piece {
+        Tam2,
+        NonTam2Piece {
+            color: Color,
+            prof: Profession,
+            side: relative::Side,
+        },
+    }
+
+    #[allow(clippy::must_use_candidate)]
+    pub fn rotate_piece_or_null(p: Option<Piece>) -> Option<Piece> {
+        let p = p?;
+        match p {
+            Piece::Tam2 => Some(p),
+            Piece::NonTam2Piece { prof, color, side } => Some(Piece::NonTam2Piece {
+                prof,
+                color,
+                side: !side,
+            }),
+        }
+    }
+}
+
 pub mod absolute {
     use std::str::FromStr;
     #[derive(Eq, PartialEq, Clone, Copy, Debug)]
