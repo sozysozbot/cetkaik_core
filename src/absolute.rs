@@ -90,3 +90,42 @@ pub fn parse_coord(coord: &str) -> Option<(Row, Column)> {
 
     Some((row, column))
 }
+
+/// Serializes [`Coord`](../type.Coord.html).
+/// # Examples
+/// ```
+/// use cetkaik_core::*;
+///
+/// assert_eq!(serialize_coord((absolute::Row::E, absolute::Column::N)), "NE");
+/// assert_eq!(serialize_coord((absolute::Row::AU, absolute::Column::Z)), "ZAU");
+/// ```
+///
+#[must_use]
+pub fn serialize_coord(coord: Coord) -> String {
+    let (row, column) = coord;
+    format!(
+        "{}{}",
+        match column {
+            Column::K => "K",
+            Column::L => "L",
+            Column::M => "M",
+            Column::N => "N",
+            Column::P => "P",
+            Column::Z => "Z",
+            Column::X => "X",
+            Column::C => "C",
+            Column::T => "T",
+        },
+        match row {
+            Row::A => "A",
+            Row::E => "E",
+            Row::I => "I",
+            Row::O => "O",
+            Row::U => "U",
+            Row::Y => "Y",
+            Row::IA => "IA",
+            Row::AI => "AI",
+            Row::AU => "AU",
+        }
+    )
+}

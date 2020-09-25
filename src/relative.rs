@@ -1,4 +1,4 @@
-use super::*;
+use super::{Color, Profession};
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub enum Side {
     Upward,
@@ -54,7 +54,7 @@ pub enum Piece {
     NonTam2Piece {
         color: Color,
         prof: Profession,
-        side: relative::Side,
+        side: Side,
     },
 }
 
@@ -73,6 +73,19 @@ pub fn rotate_piece_or_null(p: Option<Piece>) -> Option<Piece> {
 
 /// [row, col]
 pub type Coord = [usize; 2];
+
+/// Serializes [`Coord`](./type.Coord.html) in JSON-style.
+/// # Examples
+/// ```
+/// use cetkaik_core::*;
+/// use cetkaik_core::relative::*;
+///
+/// assert_eq!(serialize_coord([5,6]), "[5,6]")
+/// ```
+#[must_use]
+pub fn serialize_coord(coord: Coord) -> String {
+    format!("[{},{}]", coord[0], coord[1])
+}
 
 #[must_use]
 pub fn rotate_coord(c: Coord) -> Coord {
