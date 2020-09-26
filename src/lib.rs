@@ -100,12 +100,18 @@ impl FromStr for Profession {
             }
             "pawn" | "兵" | "elmer" | "kauk2" | "elme" | "kauk" => Ok(Profession::Kauk2),
             "rook" | "弓" | "gustuer" | "gua2" | "kucte" | "kuctu" => Ok(Profession::Gua2),
-            "bishop" | "車" | "车" | "vadyrd" | "kaun1" | "badut" | "xije" | "kaun" => Ok(Profession::Kaun1),
-            "tiger" | "虎" | "stistyst" | "dau2" | "cictus" | "cucit" | "dau" => Ok(Profession::Dau2),
+            "bishop" | "車" | "车" | "vadyrd" | "kaun1" | "badut" | "xije" | "kaun" => {
+                Ok(Profession::Kaun1)
+            }
+            "tiger" | "虎" | "stistyst" | "dau2" | "cictus" | "cucit" | "dau" => {
+                Ok(Profession::Dau2)
+            }
             "horse" | "馬" | "马" | "dodor" | "maun1" | "dodo" | "maun" => Ok(Profession::Maun1),
             "clerk" | "筆" | "笔" | "kua" | "kua2" | "kuwa" => Ok(Profession::Kua2),
             "shaman" | "巫" | "terlsk" | "tuk2" | "tamcuk" | "tancuk" => Ok(Profession::Tuk2),
-            "general" | "将" | "varxle" | "uai1" | "baxule" | "xan" | "wai" => Ok(Profession::Uai1),
+            "general" | "将" | "varxle" | "uai1" | "baxule" | "xan" | "wai" => {
+                Ok(Profession::Uai1)
+            }
             "king" | "王" | "ales" | "io" | "xet" | "caupla" => Ok(Profession::Io),
             _ => Err(()),
         }
@@ -129,18 +135,40 @@ pub mod relative;
 pub mod absolute;
 
 pub mod perspective {
-    use crate::{relative, absolute};
+    use crate::{absolute, relative};
 
     #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
     pub enum Perspective {
         IaIsDown,
-        IaIsUp
+        IaIsUp,
     }
 
     impl Perspective {
         #[must_use]
         pub fn ia_is_down(self) -> bool {
             self == Perspective::IaIsDown
+        }
+    }
+
+    #[must_use]
+    pub fn to_absolute_side(side: relative::Side, p: Perspective) -> absolute::Side {
+        match (side, p) {
+            (relative::Side::Upward, Perspective::IaIsDown)
+            | (relative::Side::Downward, Perspective::IaIsUp) => absolute::Side::IASide,
+            (relative::Side::Downward, Perspective::IaIsDown)
+            | (relative::Side::Upward, Perspective::IaIsUp) => absolute::Side::ASide,
+        }
+    }
+
+    #[must_use]
+    pub fn to_absolute_piece(piece: relative::Piece, p: Perspective) -> absolute::Piece {
+        match piece {
+            relative::Piece::Tam2 => absolute::Piece::Tam2,
+            relative::Piece::NonTam2Piece { prof, color, side } => absolute::Piece::NonTam2Piece {
+                prof,
+                color,
+                side: to_absolute_side(side, p),
+            },
         }
     }
 
@@ -177,6 +205,4 @@ pub mod perspective {
             columns[if p.ia_is_down() { col } else { 8 - col }],
         )
     }
-
 }
-

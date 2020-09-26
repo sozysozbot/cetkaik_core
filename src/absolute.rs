@@ -1,4 +1,16 @@
 use std::str::FromStr;
+
+use super::{Color, Profession};
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+pub enum Piece {
+    Tam2,
+    NonTam2Piece {
+        color: Color,
+        prof: Profession,
+        side: Side,
+    },
+}
+
 #[derive(Eq, PartialEq, Clone, Copy, Debug)]
 pub enum Side {
     ASide,
