@@ -137,3 +137,34 @@ pub fn serialize_piece(p: Piece) -> String {
         ),
     }
 }
+
+pub type Board = [Row; 9];
+pub type Row = [Option<Piece>; 9];
+
+#[derive(Debug)]
+pub struct Field {
+    pub current_board: Board,
+    pub hop1zuo1of_upward: Vec<NonTam2PieceUpward>,
+    pub hop1zuo1of_downward: Vec<NonTam2PieceDownward>,
+}
+
+#[must_use]
+pub fn rotate_board(b: Board) -> Board {
+    let mut ans: Board = [
+        [None, None, None, None, None, None, None, None, None],
+        [None, None, None, None, None, None, None, None, None],
+        [None, None, None, None, None, None, None, None, None],
+        [None, None, None, None, None, None, None, None, None],
+        [None, None, None, None, None, None, None, None, None],
+        [None, None, None, None, None, None, None, None, None],
+        [None, None, None, None, None, None, None, None, None],
+        [None, None, None, None, None, None, None, None, None],
+        [None, None, None, None, None, None, None, None, None],
+    ];
+    for i in 0..9 {
+        for j in 0..9 {
+            ans[i][j] = rotate_piece_or_null(b[8 - i][8 - j]);
+        }
+    }
+    ans
+}
