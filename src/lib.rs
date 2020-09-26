@@ -127,3 +127,56 @@ impl FromStr for Color {
 pub mod relative;
 
 pub mod absolute;
+
+pub mod perspective {
+    use crate::{relative, absolute};
+
+    #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+    pub enum Perspective {
+        IaIsDown,
+        IaIsUp
+    }
+
+    impl Perspective {
+        #[must_use]
+        pub fn ia_is_down(self) -> bool {
+            self == Perspective::IaIsDown
+        }
+    }
+
+    #[must_use]
+    pub fn to_absolute_coord(coord: relative::Coord, p: Perspective) -> absolute::Coord {
+        let [row, col] = coord;
+
+        let columns = vec![
+            absolute::Column::K,
+            absolute::Column::L,
+            absolute::Column::N,
+            absolute::Column::T,
+            absolute::Column::Z,
+            absolute::Column::X,
+            absolute::Column::C,
+            absolute::Column::M,
+            absolute::Column::P,
+        ];
+
+        let rows = vec![
+            absolute::Row::A,
+            absolute::Row::E,
+            absolute::Row::I,
+            absolute::Row::U,
+            absolute::Row::O,
+            absolute::Row::Y,
+            absolute::Row::AI,
+            absolute::Row::AU,
+            absolute::Row::IA,
+        ];
+
+        (
+            rows[if p.ia_is_down() { row } else { 8 - row }],
+            columns[if p.ia_is_down() { col } else { 8 - col }],
+        )
+    }
+
+}
+

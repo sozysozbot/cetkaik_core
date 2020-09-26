@@ -94,10 +94,10 @@ pub fn parse_coord(coord: &str) -> Option<(Row, Column)> {
 /// Serializes [`Coord`](../type.Coord.html).
 /// # Examples
 /// ```
-/// use cetkaik_core::*;
+/// use cetkaik_core::absolute::*;
 ///
-/// assert_eq!(serialize_coord((absolute::Row::E, absolute::Column::N)), "NE");
-/// assert_eq!(serialize_coord((absolute::Row::AU, absolute::Column::Z)), "ZAU");
+/// assert_eq!(serialize_coord((Row::E, Column::N)), "NE");
+/// assert_eq!(serialize_coord((Row::AU, Column::Z)), "ZAU");
 /// ```
 ///
 #[must_use]
