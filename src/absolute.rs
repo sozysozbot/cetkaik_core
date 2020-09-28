@@ -11,6 +11,28 @@ pub enum Piece {
     },
 }
 
+
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+pub struct NonTam2PieceASide {
+    pub color: Color,
+    pub prof: Profession,
+}
+
+#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+pub struct NonTam2PieceIASide {
+    pub color: Color,
+    pub prof: Profession,
+}
+
+use std::collections::HashMap;
+pub type Board = HashMap<Coord, Piece>;
+
+pub struct Field {
+   pub board: Board,
+   pub a_side_hop1zuo1: Vec<NonTam2PieceASide>,
+   pub ia_side_hop1zuo1: Vec<NonTam2PieceIASide>,
+}
+
 #[derive(Eq, PartialEq, Clone, Copy, Debug)]
 pub enum Side {
     ASide,
