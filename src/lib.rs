@@ -122,9 +122,10 @@ impl FromStr for Color {
     type Err = ();
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        match s {
+        let s = s.to_lowercase();
+        match &*s {
             "red" | "赤" | "kok1" | "红" | "紅" => Ok(Color::Kok1),
-            "black" | "黒" | "Huok2" | "黑" => Ok(Color::Huok2),
+            "black" | "黒" | "huok2" | "黑" => Ok(Color::Huok2),
             _ => Err(()),
         }
     }
