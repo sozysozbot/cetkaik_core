@@ -85,6 +85,21 @@ pub enum Column {
 
 pub type Coord = (Row, Column);
 
+/// Parses [`Coord`](type.Coord.html).
+/// # Examples
+/// ```
+/// use cetkaik_core::absolute::*;
+/// assert_eq!(
+///     parse_coord("LIA"),
+///     Some((Row::IA, Column::L))
+/// );
+///
+/// // case-sensitive
+/// assert_eq!(
+///     parse_coord("LiA"),
+///     None
+/// );
+/// ```
 #[must_use]
 pub fn parse_coord(coord: &str) -> Option<(Row, Column)> {
     if coord.is_empty() || coord.len() > 3 {

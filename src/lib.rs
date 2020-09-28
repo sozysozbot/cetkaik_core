@@ -4,6 +4,7 @@
 #[cfg(test)]
 mod tests {}
 
+/// Denotes the color of a piece
 #[derive(PartialEq, Eq, Clone, Copy, Debug)]
 pub enum Color {
     /// Red, 赤
@@ -30,6 +31,7 @@ pub fn serialize_color(color: Color) -> &'static str {
     }
 }
 
+/// Denotes the profession of a piece
 #[derive(PartialEq, Eq, Clone, Copy, Debug)]
 pub enum Profession {
     /// Vessel, 船, felkana
@@ -131,10 +133,13 @@ impl FromStr for Color {
     }
 }
 
+/// Defines things in terms of relative view: "which piece is opponent's?"
 pub mod relative;
 
+/// Defines things in the absolute term: "which piece lies in the square LIA?"
 pub mod absolute;
 
+/// Defines a perspective, with which you can transform between the absolute and the relative
 pub mod perspective {
     use crate::{absolute, relative};
 
@@ -173,6 +178,16 @@ pub mod perspective {
         }
     }
 
+    /// Converts `relative::Coord` into `absolute::Coord`
+    /// # Examples
+    /// ```
+    /// use cetkaik_core::*;
+    /// use cetkaik_core::perspective::*;
+    /// assert_eq!(
+    ///     to_absolute_coord([2, 4], Perspective::IaIsDown),
+    ///     (absolute::Row::I, absolute::Column::Z)
+    /// )
+    /// ```
     #[must_use]
     pub fn to_absolute_coord(coord: relative::Coord, p: Perspective) -> absolute::Coord {
         let [row, col] = coord;
