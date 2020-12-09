@@ -1,5 +1,5 @@
-#![warn(clippy::pedantic)]
-#![allow(clippy::non_ascii_literal)]
+#![warn(clippy::pedantic, clippy::nursery)]
+#![allow(clippy::non_ascii_literal, clippy::use_self)]
 
 #[cfg(test)]
 mod tests {}
@@ -24,7 +24,7 @@ pub enum Color {
 /// ```
 ///
 #[must_use]
-pub fn serialize_color(color: Color) -> &'static str {
+pub const fn serialize_color(color: Color) -> &'static str {
     match color {
         Color::Huok2 => "黒",
         Color::Kok1 => "赤",
@@ -75,7 +75,7 @@ pub enum Profession {
 /// ```
 ///
 #[must_use]
-pub fn serialize_prof(prof: Profession) -> &'static str {
+pub const fn serialize_prof(prof: Profession) -> &'static str {
     match prof {
         Profession::Nuak1 => "船",
         Profession::Kauk2 => "兵",
@@ -157,7 +157,7 @@ pub mod perspective {
     }
 
     #[must_use]
-    pub fn to_absolute_side(side: relative::Side, p: Perspective) -> absolute::Side {
+    pub const fn to_absolute_side(side: relative::Side, p: Perspective) -> absolute::Side {
         match (side, p) {
             (relative::Side::Upward, Perspective::IaIsDown)
             | (relative::Side::Downward, Perspective::IaIsUp) => absolute::Side::IASide,
@@ -167,7 +167,7 @@ pub mod perspective {
     }
 
     #[must_use]
-    pub fn to_absolute_piece(piece: relative::Piece, p: Perspective) -> absolute::Piece {
+    pub const fn to_absolute_piece(piece: relative::Piece, p: Perspective) -> absolute::Piece {
         match piece {
             relative::Piece::Tam2 => absolute::Piece::Tam2,
             relative::Piece::NonTam2Piece { prof, color, side } => absolute::Piece::NonTam2Piece {

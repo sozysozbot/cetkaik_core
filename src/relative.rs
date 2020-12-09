@@ -88,12 +88,12 @@ pub fn serialize_coord(coord: Coord) -> String {
 }
 
 #[must_use]
-pub fn rotate_coord(c: Coord) -> Coord {
+pub const fn rotate_coord(c: Coord) -> Coord {
     [(8 - c[0]), (8 - c[1])]
 }
 
 #[must_use]
-pub fn is_water([row, col]: Coord) -> bool {
+pub const fn is_water([row, col]: Coord) -> bool {
     (row == 4 && col == 2)
         || (row == 4 && col == 3)
         || (row == 4 && col == 4)
@@ -105,7 +105,7 @@ pub fn is_water([row, col]: Coord) -> bool {
         || (row == 6 && col == 4)
 }
 
-fn serialize_side(side: Side) -> &'static str {
+const fn serialize_side(side: Side) -> &'static str {
     match side {
         Side::Upward => "↑",
         Side::Downward => "↓",
