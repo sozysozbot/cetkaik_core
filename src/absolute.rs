@@ -11,6 +11,30 @@ pub enum Piece {
     },
 }
 
+impl Piece {
+    #[must_use]
+    pub fn has_color(self, clr: Color) -> bool {
+        match self {
+            Piece::Tam2 => false,
+            Piece::NonTam2Piece { color, .. } => color == clr,
+        }
+    }
+    #[must_use]
+    pub fn has_prof(self, prf: Profession) -> bool {
+        match self {
+            Piece::Tam2 => false,
+            Piece::NonTam2Piece { prof, .. } => prof == prf,
+        }
+    }
+    #[must_use]
+    pub fn has_side(self, sid: Side) -> bool {
+        match self {
+            Piece::Tam2 => false,
+            Piece::NonTam2Piece { side, .. } => side == sid,
+        }
+    }
+}
+
 #[must_use]
 pub const fn is_water((row, col): Coord) -> bool {
     match row {
