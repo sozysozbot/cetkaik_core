@@ -11,6 +11,20 @@ pub enum Piece {
     },
 }
 
+#[must_use]
+pub const fn is_water((row, col): Coord) -> bool {
+    match row {
+        Row::O => match col {
+            Column::N | Column::T | Column::Z | Column::X | Column::C => true,
+            _ => false,
+        },
+        Row::I | Row::U | Row::Y | Row::AI => match col {
+            Column::Z => true,
+            _ => false,
+        },
+        _ => false,
+    }
+}
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq)]
 pub struct NonTam2Piece {
@@ -23,9 +37,9 @@ pub type Board = HashMap<Coord, Piece>;
 
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct Field {
-   pub board: Board,
-   pub a_side_hop1zuo1: Vec<NonTam2Piece>,
-   pub ia_side_hop1zuo1: Vec<NonTam2Piece>,
+    pub board: Board,
+    pub a_side_hop1zuo1: Vec<NonTam2Piece>,
+    pub ia_side_hop1zuo1: Vec<NonTam2Piece>,
 }
 
 #[derive(Eq, PartialEq, Clone, Copy, Debug)]
