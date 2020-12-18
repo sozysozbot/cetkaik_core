@@ -179,6 +179,24 @@ pub struct Field {
     pub hop1zuo1of_downward: Vec<NonTam2PieceDownward>,
 }
 
+impl Field {
+    pub fn insert_nontam_piece_into_hop1zuo1(
+        &mut self,
+        color: Color,
+        prof: Profession,
+        side: Side,
+    ) {
+        match side {
+            Side::Upward => self
+                .hop1zuo1of_upward
+                .push(NonTam2PieceUpward { color, prof }),
+            Side::Downward => self
+                .hop1zuo1of_downward
+                .push(NonTam2PieceDownward { color, prof }),
+        }
+    }
+}
+
 #[must_use]
 pub fn rotate_board(b: Board) -> Board {
     let mut ans: Board = [

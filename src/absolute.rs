@@ -73,6 +73,15 @@ pub struct Field {
     pub ia_side_hop1zuo1: Vec<NonTam2Piece>,
 }
 
+impl Field {
+    pub fn insert_nontam_piece_into_hop1zuo1(&mut self, piece: NonTam2Piece, side: Side) {
+        match side {
+            Side::ASide => self.a_side_hop1zuo1.push(piece),
+            Side::IASide => self.ia_side_hop1zuo1.push(piece),
+        }
+    }
+}
+
 #[derive(Eq, PartialEq, Clone, Copy, Debug)]
 pub enum Side {
     ASide,
