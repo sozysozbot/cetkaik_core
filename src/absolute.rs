@@ -74,10 +74,15 @@ pub struct Field {
 }
 
 impl Field {
-    pub fn insert_nontam_piece_into_hop1zuo1(&mut self, piece: NonTam2Piece, side: Side) {
+    pub fn insert_nontam_piece_into_hop1zuo1(
+        &mut self,
+        color: Color,
+        prof: Profession,
+        side: Side,
+    ) {
         match side {
-            Side::ASide => self.a_side_hop1zuo1.push(piece),
-            Side::IASide => self.ia_side_hop1zuo1.push(piece),
+            Side::ASide => self.a_side_hop1zuo1.push(NonTam2Piece { color, prof }),
+            Side::IASide => self.ia_side_hop1zuo1.push(NonTam2Piece { color, prof }),
         }
     }
 }
