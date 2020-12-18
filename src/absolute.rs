@@ -13,6 +13,13 @@ pub enum Piece {
 
 impl Piece {
     #[must_use]
+    pub const fn is_tam2(self) -> bool {
+        match self {
+            Piece::Tam2 => true,
+            _ => false,
+        }
+    }
+    #[must_use]
     pub fn has_color(self, clr: Color) -> bool {
         match self {
             Piece::Tam2 => false,
