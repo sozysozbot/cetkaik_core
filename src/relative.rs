@@ -63,7 +63,7 @@ impl Piece {
     pub const fn is_tam2(self) -> bool {
         match self {
             Piece::Tam2 => true,
-            _ => false,
+            Piece::NonTam2Piece { .. } => false,
         }
     }
     #[must_use]
@@ -172,7 +172,7 @@ pub fn serialize_piece(p: Piece) -> String {
 pub type Board = [Row; 9];
 pub type Row = [Option<Piece>; 9];
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Field {
     pub current_board: Board,
     pub hop1zuo1of_upward: Vec<NonTam2PieceUpward>,
@@ -193,6 +193,34 @@ impl Field {
             Side::Downward => self
                 .hop1zuo1of_downward
                 .push(NonTam2PieceDownward { color, prof }),
+        }
+    }
+    #[must_use]
+    pub fn find_and_remove_piece_from_hop1zuo1(
+        &self,
+        color: Color,
+        prof: Profession,
+        side: Side,
+    ) -> Option<Self> {
+        match side {
+            Side::Upward => {
+                let mut that = self.clone();
+                let index = that
+                    .hop1zuo1of_upward
+                    .iter()
+                    .position(|x| *x == NonTam2PieceUpward { color, prof })?;
+                that.hop1zuo1of_upward.remove(index);
+                Some(that)
+            }
+            Side::Downward => {
+                let mut that = self.clone();
+                let index = that
+                    .hop1zuo1of_downward
+                    .iter()
+                    .position(|x| *x == NonTam2PieceDownward { color, prof })?;
+                that.hop1zuo1of_downward.remove(index);
+                Some(that)
+            }
         }
     }
 }

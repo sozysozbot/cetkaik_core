@@ -16,7 +16,7 @@ impl Piece {
     pub const fn is_tam2(self) -> bool {
         match self {
             Piece::Tam2 => true,
-            _ => false,
+            Piece::NonTam2Piece { .. } => false,
         }
     }
     #[must_use]
@@ -83,6 +83,34 @@ impl Field {
         match side {
             Side::ASide => self.a_side_hop1zuo1.push(NonTam2Piece { color, prof }),
             Side::IASide => self.ia_side_hop1zuo1.push(NonTam2Piece { color, prof }),
+        }
+    }
+    #[must_use]
+    pub fn find_and_remove_piece_from_hop1zuo1(
+        &self,
+        color: Color,
+        prof: Profession,
+        side: Side,
+    ) -> Option<Self> {
+        match side {
+            Side::ASide => {
+                let mut that = self.clone();
+                let index = that
+                    .a_side_hop1zuo1
+                    .iter()
+                    .position(|x| *x == NonTam2Piece { color, prof })?;
+                that.a_side_hop1zuo1.remove(index);
+                Some(that)
+            }
+            Side::IASide => {
+                let mut that = self.clone();
+                let index = that
+                    .ia_side_hop1zuo1
+                    .iter()
+                    .position(|x| *x == NonTam2Piece { color, prof })?;
+                that.ia_side_hop1zuo1.remove(index);
+                Some(that)
+            }
         }
     }
 }
