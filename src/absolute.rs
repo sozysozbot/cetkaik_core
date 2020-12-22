@@ -63,6 +63,106 @@ pub struct NonTam2Piece {
     pub prof: Profession,
 }
 
+impl std::fmt::Display for NonTam2Piece {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "{}{}",
+            super::serialize_color(self.color),
+            super::serialize_prof(self.prof)
+        )
+    }
+}
+use std::convert::TryInto;
+impl TryInto<NonTam2Piece> for &str {
+    type Error = ();
+    fn try_into(self) -> Result<NonTam2Piece, Self::Error> {
+        Ok(match self {
+            "黒兵" => NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kauk2,
+            },
+            "赤兵" => NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kauk2,
+            },
+            "黒弓" => NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Gua2,
+            },
+            "黒車" => NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kaun1,
+            },
+            "黒虎" => NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Dau2,
+            },
+            "黒馬" => NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Maun1,
+            },
+            "黒筆" => NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kua2,
+            },
+            "黒巫" => NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Tuk2,
+            },
+            "黒将" => NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Uai1,
+            },
+            "赤弓" => NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Gua2,
+            },
+            "赤車" => NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kaun1,
+            },
+            "赤虎" => NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Dau2,
+            },
+            "赤馬" => NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Maun1,
+            },
+            "赤筆" => NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kua2,
+            },
+            "赤巫" => NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Tuk2,
+            },
+            "赤将" => NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Uai1,
+            },
+            "黒王" => NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Io,
+            },
+            "赤王" => NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Io,
+            },
+            "黒船" => NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Nuak1,
+            },
+            "赤船" => NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Nuak1,
+            },
+            _ => return Err(()),
+        })
+    }
+}
+
 use std::collections::HashMap;
 pub type Board = HashMap<Coord, Piece>;
 
@@ -175,7 +275,7 @@ pub type Coord = (Row, Column);
 /// Parses [`Coord`](type.Coord.html).
 /// # Examples
 /// ```
-/// use cetkaik_core::absolute::*;
+/// use *;
 /// assert_eq!(
 ///     parse_coord("LIA"),
 ///     Some((Row::IA, Column::L))
@@ -225,7 +325,7 @@ pub fn parse_coord(coord: &str) -> Option<(Row, Column)> {
 /// Serializes [`Coord`](../type.Coord.html).
 /// # Examples
 /// ```
-/// use cetkaik_core::absolute::*;
+/// use *;
 ///
 /// assert_eq!(serialize_coord((Row::E, Column::N)), "NE");
 /// assert_eq!(serialize_coord((Row::AU, Column::Z)), "ZAU");
