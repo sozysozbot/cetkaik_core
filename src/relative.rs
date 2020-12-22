@@ -1,5 +1,5 @@
 use super::{Color, Profession};
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum Side {
     Upward,
     Downward,
@@ -16,13 +16,13 @@ impl std::ops::Not for Side {
     }
 }
 
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub struct NonTam2PieceDownward {
     pub color: Color,
     pub prof: Profession,
 }
 
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub struct NonTam2PieceUpward {
     pub color: Color,
     pub prof: Profession,
@@ -48,7 +48,7 @@ impl From<NonTam2PieceDownward> for Piece {
     }
 }
 
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum Piece {
     Tam2,
     NonTam2Piece {
@@ -172,7 +172,7 @@ pub fn serialize_piece(p: Piece) -> String {
 pub type Board = [Row; 9];
 pub type Row = [Option<Piece>; 9];
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Hash)]
 pub struct Field {
     pub current_board: Board,
     pub hop1zuo1of_upward: Vec<NonTam2PieceUpward>,

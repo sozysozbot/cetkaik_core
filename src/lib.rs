@@ -5,7 +5,7 @@
 mod tests {}
 
 /// Denotes the color of a piece
-#[derive(PartialEq, Eq, Clone, Copy, Debug)]
+#[derive(PartialEq, Eq, Clone, Copy, Debug, Hash)]
 pub enum Color {
     /// Red, 赤
     Kok1,
@@ -32,7 +32,7 @@ pub const fn serialize_color(color: Color) -> &'static str {
 }
 
 /// Denotes the profession of a piece
-#[derive(PartialEq, Eq, Clone, Copy, Debug)]
+#[derive(PartialEq, Eq, Clone, Copy, Debug, Hash)]
 pub enum Profession {
     /// Vessel, 船, felkana
     Nuak1,

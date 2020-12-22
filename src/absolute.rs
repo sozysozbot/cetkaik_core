@@ -1,7 +1,7 @@
 use std::str::FromStr;
 
 use super::{Color, Profession};
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum Piece {
     Tam2,
     NonTam2Piece {
@@ -57,7 +57,7 @@ pub const fn is_water((row, col): Coord) -> bool {
     }
 }
 
-#[derive(Copy, Clone, Debug, Eq, PartialEq)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub struct NonTam2Piece {
     pub color: Color,
     pub prof: Profession,
@@ -115,7 +115,7 @@ impl Field {
     }
 }
 
-#[derive(Eq, PartialEq, Clone, Copy, Debug)]
+#[derive(Eq, PartialEq, Clone, Copy, Debug, Hash)]
 pub enum Side {
     ASide,
     IASide,
