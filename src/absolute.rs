@@ -275,7 +275,7 @@ pub type Coord = (Row, Column);
 /// Parses [`Coord`](type.Coord.html).
 /// # Examples
 /// ```
-/// use *;
+/// use cetkaik_core::absolute::*;
 /// assert_eq!(
 ///     parse_coord("LIA"),
 ///     Some((Row::IA, Column::L))
@@ -382,7 +382,7 @@ pub fn yhuap_initial_board() -> Board {
 /// Serializes [`Coord`](../type.Coord.html).
 /// # Examples
 /// ```
-/// use *;
+/// use cetkaik_core::absolute::*;
 ///
 /// assert_eq!(serialize_coord((Row::E, Column::N)), "NE");
 /// assert_eq!(serialize_coord((Row::AU, Column::Z)), "ZAU");
