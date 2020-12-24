@@ -2,14 +2,14 @@ use crate::{absolute, relative};
 
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum Perspective {
-    IaIsDown,
-    IaIsUp,
+    IaIsDownAndPointsUpward,
+    IaIsUpAndPointsDownward,
 }
 
 impl Perspective {
     #[must_use]
     pub fn ia_is_down(self) -> bool {
-        self == Perspective::IaIsDown
+        self == Perspective::IaIsDownAndPointsUpward
     }
 }
 
@@ -36,7 +36,7 @@ pub fn to_absolute_field(field: relative::Field, p: Perspective) -> absolute::Fi
     absolute::Field {
         board: to_absolute_board(&current_board, p),
         ia_side_hop1zuo1: match p {
-            Perspective::IaIsDown => hop1zuo1of_downward
+            Perspective::IaIsDownAndPointsUpward => hop1zuo1of_downward
                 .iter()
                 .copied()
                 .map(
@@ -46,7 +46,7 @@ pub fn to_absolute_field(field: relative::Field, p: Perspective) -> absolute::Fi
                     },
                 )
                 .collect(),
-            Perspective::IaIsUp => hop1zuo1of_upward
+            Perspective::IaIsUpAndPointsDownward => hop1zuo1of_upward
                 .iter()
                 .copied()
                 .map(
@@ -58,7 +58,7 @@ pub fn to_absolute_field(field: relative::Field, p: Perspective) -> absolute::Fi
                 .collect(),
         },
         a_side_hop1zuo1: match p {
-            Perspective::IaIsDown => hop1zuo1of_upward
+            Perspective::IaIsDownAndPointsUpward => hop1zuo1of_upward
                 .iter()
                 .copied()
                 .map(
@@ -68,7 +68,7 @@ pub fn to_absolute_field(field: relative::Field, p: Perspective) -> absolute::Fi
                     },
                 )
                 .collect(),
-            Perspective::IaIsUp => hop1zuo1of_downward
+            Perspective::IaIsUpAndPointsDownward => hop1zuo1of_downward
                 .iter()
                 .copied()
                 .map(
@@ -85,10 +85,22 @@ pub fn to_absolute_field(field: relative::Field, p: Perspective) -> absolute::Fi
 #[must_use]
 pub const fn to_absolute_side(side: relative::Side, p: Perspective) -> absolute::Side {
     match (side, p) {
-        (relative::Side::Upward, Perspective::IaIsDown)
-        | (relative::Side::Downward, Perspective::IaIsUp) => absolute::Side::IASide,
-        (relative::Side::Downward, Perspective::IaIsDown)
-        | (relative::Side::Upward, Perspective::IaIsUp) => absolute::Side::ASide,
+        (relative::Side::Upward, Perspective::IaIsDownAndPointsUpward)
+        | (relative::Side::Downward, Perspective::IaIsUpAndPointsDownward) => {
+            absolute::Side::IASide
+        }
+        (relative::Side::Downward, Perspective::IaIsDownAndPointsUpward)
+        | (relative::Side::Upward, Perspective::IaIsUpAndPointsDownward) => absolute::Side::ASide,
+    }
+}
+
+#[must_use]
+pub const fn to_relative_side(side: absolute::Side, p: Perspective) -> relative::Side {
+    match (side, p) {
+        (absolute::Side::IASide, Perspective::IaIsDownAndPointsUpward)
+        | (absolute::Side::ASide, Perspective::IaIsUpAndPointsDownward) => relative::Side::Upward,
+        (absolute::Side::IASide, Perspective::IaIsUpAndPointsDownward)
+        | (absolute::Side::ASide, Perspective::IaIsDownAndPointsUpward) => relative::Side::Downward,
     }
 }
 
@@ -110,7 +122,7 @@ pub const fn to_absolute_piece(piece: relative::Piece, p: Perspective) -> absolu
 /// use cetkaik_core::*;
 /// use cetkaik_core::perspective::*;
 /// assert_eq!(
-///     to_absolute_coord([2, 4], Perspective::IaIsDown),
+///     to_absolute_coord([2, 4], Perspective::IaIsDownAndPointsUpward),
 ///     (absolute::Row::I, absolute::Column::Z)
 /// )
 /// ```
