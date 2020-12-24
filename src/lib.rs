@@ -159,6 +159,63 @@ pub mod perspective {
     }
 
     #[must_use]
+    pub fn to_absolute_board(board: &relative::Board, p: Perspective) -> absolute::Board {
+        let mut ans = std::collections::HashMap::new();
+        for i in 0..8 {
+            for j in 0..8 {
+                if let Some(piece) = board[i][j] {
+                    ans.insert(to_absolute_coord([i, j], p), to_absolute_piece(piece, p));
+                }
+            }
+        }
+        ans
+    }
+
+    #[must_use]
+    pub fn to_absolute_field(field: relative::Field, p: Perspective) -> absolute::Field {
+        let relative::Field { hop1zuo1of_downward, hop1zuo1of_upward, current_board} = field;
+        absolute::Field {
+            board: to_absolute_board(&current_board, p),
+            ia_side_hop1zuo1: match p {
+                Perspective::IaIsDown => {
+                    hop1zuo1of_downward
+                        .iter().copied()
+                        .map(|relative::NonTam2PieceDownward { color, prof }| {
+                            absolute::NonTam2Piece { color, prof }
+                        })
+                        .collect()
+                }
+                Perspective::IaIsUp => {
+                    hop1zuo1of_upward
+                        .iter().copied()
+                        .map(|relative::NonTam2PieceUpward { color, prof }| {
+                            absolute::NonTam2Piece { color, prof }
+                        })
+                        .collect()
+                }
+            },
+            a_side_hop1zuo1: match p {
+                Perspective::IaIsDown => {
+                    hop1zuo1of_upward
+                        .iter().copied()
+                        .map(|relative::NonTam2PieceUpward { color, prof }| {
+                            absolute::NonTam2Piece { color, prof }
+                        })
+                        .collect()
+                }
+                Perspective::IaIsUp => {
+                    hop1zuo1of_downward
+                        .iter().copied()
+                        .map(|relative::NonTam2PieceDownward { color, prof }| {
+                            absolute::NonTam2Piece { color, prof }
+                        })
+                        .collect()
+                }
+            },
+        }
+    }
+
+    #[must_use]
     pub const fn to_absolute_side(side: relative::Side, p: Perspective) -> absolute::Side {
         match (side, p) {
             (relative::Side::Upward, Perspective::IaIsDown)
