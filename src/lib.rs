@@ -1,5 +1,7 @@
 #![warn(clippy::pedantic, clippy::nursery)]
 #![allow(clippy::non_ascii_literal, clippy::use_self)]
+#[macro_use]
+extern crate maplit;
 
 #[cfg(test)]
 mod tests {}

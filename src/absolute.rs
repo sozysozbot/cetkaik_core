@@ -322,6 +322,63 @@ pub fn parse_coord(coord: &str) -> Option<(Row, Column)> {
     Some((row, column))
 }
 
+#[must_use]
+pub fn yhuap_initial_board() -> Board {
+    hashmap! {
+        (Row::O, Column::Z) => Piece::Tam2,
+
+        (Row::AI, Column::Z) => Piece::NonTam2Piece {prof: Profession::Nuak1, color: Color::Huok2, side: Side::IASide},
+        (Row::AI, Column::K) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Huok2, side: Side::IASide},
+        (Row::AI, Column::N) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Huok2, side: Side::IASide},
+        (Row::AI, Column::C) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Huok2, side: Side::IASide},
+        (Row::AI, Column::P) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Huok2, side: Side::IASide},
+        (Row::AI, Column::L) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Kok1, side: Side::IASide},
+        (Row::AI, Column::T) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Kok1, side: Side::IASide},
+        (Row::AI, Column::X) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Kok1, side: Side::IASide},
+        (Row::AI, Column::M) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Kok1, side: Side::IASide},
+        (Row::AU, Column::L) => Piece::NonTam2Piece {prof: Profession::Gua2, color: Color::Huok2, side: Side::IASide},
+        (Row::AU, Column::M) => Piece::NonTam2Piece {prof: Profession::Gua2, color: Color::Kok1, side: Side::IASide},
+        (Row::IA, Column::C) => Piece::NonTam2Piece {prof: Profession::Kaun1, color: Color::Huok2, side: Side::IASide},
+        (Row::IA, Column::N) => Piece::NonTam2Piece {prof: Profession::Kaun1, color: Color::Kok1, side: Side::IASide},
+        (Row::AU, Column::T) => Piece::NonTam2Piece {prof: Profession::Dau2, color: Color::Huok2, side: Side::IASide},
+        (Row::AU, Column::X) => Piece::NonTam2Piece {prof: Profession::Dau2, color: Color::Kok1, side: Side::IASide},
+        (Row::IA, Column::M) => Piece::NonTam2Piece {prof: Profession::Maun1, color: Color::Huok2, side: Side::IASide},
+        (Row::IA, Column::L) => Piece::NonTam2Piece {prof: Profession::Maun1, color: Color::Kok1, side: Side::IASide},
+        (Row::IA, Column::P) => Piece::NonTam2Piece {prof: Profession::Kua2, color: Color::Huok2, side: Side::IASide},
+        (Row::AU, Column::P) => Piece::NonTam2Piece {prof: Profession::Tuk2, color: Color::Kok1, side: Side::IASide},
+        (Row::IA, Column::X) => Piece::NonTam2Piece {prof: Profession::Uai1, color: Color::Huok2, side: Side::IASide},
+        (Row::IA, Column::T) => Piece::NonTam2Piece {prof: Profession::Uai1, color: Color::Kok1, side: Side::IASide},
+        (Row::IA, Column::Z) => Piece::NonTam2Piece {prof: Profession::Io, color: Color::Huok2, side: Side::IASide},
+        (Row::IA, Column::K) => Piece::NonTam2Piece {prof: Profession::Kua2, color: Color::Kok1, side: Side::IASide},
+        (Row::AU, Column::K) => Piece::NonTam2Piece {prof: Profession::Tuk2, color: Color::Huok2, side: Side::IASide},
+
+        (Row::I, Column::Z) => Piece::NonTam2Piece {prof: Profession::Nuak1, color: Color::Kok1, side: Side::ASide},
+        (Row::I, Column::K) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Huok2, side: Side::ASide},
+        (Row::I, Column::N) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Huok2, side: Side::ASide},
+        (Row::I, Column::C) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Huok2, side: Side::ASide},
+        (Row::I, Column::P) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Huok2, side: Side::ASide},
+        (Row::I, Column::L) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Kok1, side: Side::ASide},
+        (Row::I, Column::T) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Kok1, side: Side::ASide},
+        (Row::I, Column::X) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Kok1, side: Side::ASide},
+        (Row::I, Column::M) => Piece::NonTam2Piece {prof: Profession::Kauk2, color: Color::Kok1, side: Side::ASide},
+        (Row::E, Column::M) => Piece::NonTam2Piece {prof: Profession::Gua2, color: Color::Huok2, side: Side::ASide},
+        (Row::E, Column::L) => Piece::NonTam2Piece {prof: Profession::Gua2, color: Color::Kok1, side: Side::ASide},
+        (Row::A, Column::N) => Piece::NonTam2Piece {prof: Profession::Kaun1, color: Color::Huok2, side: Side::ASide},
+        (Row::A, Column::C) => Piece::NonTam2Piece {prof: Profession::Kaun1, color: Color::Kok1, side: Side::ASide},
+        (Row::E, Column::X) => Piece::NonTam2Piece {prof: Profession::Dau2, color: Color::Huok2, side: Side::ASide},
+        (Row::E, Column::T) => Piece::NonTam2Piece {prof: Profession::Dau2, color: Color::Kok1, side: Side::ASide},
+        (Row::A, Column::L) => Piece::NonTam2Piece {prof: Profession::Maun1, color: Color::Huok2, side: Side::ASide},
+        (Row::A, Column::M) => Piece::NonTam2Piece {prof: Profession::Maun1, color: Color::Kok1, side: Side::ASide},
+        (Row::A, Column::K) => Piece::NonTam2Piece {prof: Profession::Kua2, color: Color::Huok2, side: Side::ASide},
+        (Row::E, Column::P) => Piece::NonTam2Piece {prof: Profession::Tuk2, color: Color::Huok2, side: Side::ASide},
+        (Row::A, Column::P) => Piece::NonTam2Piece {prof: Profession::Kua2, color: Color::Kok1, side: Side::ASide},
+        (Row::E, Column::K) => Piece::NonTam2Piece {prof: Profession::Tuk2, color: Color::Kok1, side: Side::ASide},
+        (Row::A, Column::T) => Piece::NonTam2Piece {prof: Profession::Uai1, color: Color::Huok2, side: Side::ASide},
+        (Row::A, Column::X) => Piece::NonTam2Piece {prof: Profession::Uai1, color: Color::Kok1, side: Side::ASide},
+        (Row::A, Column::Z) => Piece::NonTam2Piece {prof: Profession::Io, color: Color::Huok2, side: Side::ASide},
+    }
+}
+
 /// Serializes [`Coord`](../type.Coord.html).
 /// # Examples
 /// ```

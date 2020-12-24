@@ -179,6 +179,284 @@ pub struct Field {
     pub hop1zuo1of_downward: Vec<NonTam2PieceDownward>,
 }
 
+#[must_use]
+#[allow(clippy::too_many_lines)]
+pub const fn yhuap_initial_board() -> Board {
+    [
+        [
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kua2,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Maun1,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kaun1,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Uai1,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Io,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Uai1,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kaun1,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Maun1,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kua2,
+                side: Side::Downward,
+            }),
+        ],
+        [
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Tuk2,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Gua2,
+                side: Side::Downward,
+            }),
+            None,
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Dau2,
+                side: Side::Downward,
+            }),
+            None,
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Dau2,
+                side: Side::Downward,
+            }),
+            None,
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Gua2,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Tuk2,
+                side: Side::Downward,
+            }),
+        ],
+        [
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kauk2,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kauk2,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kauk2,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kauk2,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Nuak1,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kauk2,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kauk2,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kauk2,
+                side: Side::Downward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kauk2,
+                side: Side::Downward,
+            }),
+        ],
+        [None, None, None, None, None, None, None, None, None],
+        [
+            None,
+            None,
+            None,
+            None,
+            Some(Piece::Tam2),
+            None,
+            None,
+            None,
+            None,
+        ],
+        [None, None, None, None, None, None, None, None, None],
+        [
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kauk2,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kauk2,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kauk2,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kauk2,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Nuak1,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kauk2,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kauk2,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kauk2,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kauk2,
+                side: Side::Upward,
+            }),
+        ],
+        [
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Tuk2,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Gua2,
+                side: Side::Upward,
+            }),
+            None,
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Dau2,
+                side: Side::Upward,
+            }),
+            None,
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Dau2,
+                side: Side::Upward,
+            }),
+            None,
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Gua2,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Tuk2,
+                side: Side::Upward,
+            }),
+        ],
+        [
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kua2,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Maun1,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Kaun1,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Kok1,
+                prof: Profession::Uai1,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Io,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Uai1,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kaun1,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Maun1,
+                side: Side::Upward,
+            }),
+            Some(Piece::NonTam2Piece {
+                color: Color::Huok2,
+                prof: Profession::Kua2,
+                side: Side::Upward,
+            }),
+        ],
+    ]
+}
+
 impl Field {
     pub fn insert_nontam_piece_into_hop1zuo1(
         &mut self,
