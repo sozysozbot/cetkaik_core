@@ -523,3 +523,14 @@ pub fn rotate_board(b: Board) -> Board {
     }
     ans
 }
+
+#[must_use]
+pub fn distance(a: Coord, b: Coord) -> i32 { 
+    let [x1, y1] = a;
+    let [x2, y2] = b;
+
+    let x_distance = (x1 as i32 - x2 as i32).abs();
+    let y_distance = (y1 as i32 - y2 as i32).abs();
+
+    x_distance.max(y_distance)
+}

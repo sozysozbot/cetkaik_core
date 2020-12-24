@@ -11,6 +11,16 @@ pub enum Piece {
     },
 }
 
+#[must_use]
+pub fn distance(a: Coord, b: Coord) -> i32 {
+    use super::{perspective, relative};
+    // coordinate-independent, so I can just choose one
+    relative::distance(
+        perspective::to_relative_coord(a, perspective::Perspective::IaIsDownAndPointsUpward),
+        perspective::to_relative_coord(b, perspective::Perspective::IaIsDownAndPointsUpward),
+    )
+}
+
 impl Piece {
     #[must_use]
     pub const fn is_tam2(self) -> bool {
