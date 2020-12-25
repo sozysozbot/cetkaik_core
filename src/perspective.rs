@@ -223,6 +223,16 @@ pub fn to_absolute_coord(coord: relative::Coord, p: Perspective) -> absolute::Co
     )
 }
 
+/// Converts `absolute::Coord` into `relative::Coord`
+/// # Examples
+/// ```
+/// use cetkaik_core::*;
+/// use cetkaik_core::perspective::*;
+/// assert_eq!(
+///     to_relative_coord((absolute::Row::I, absolute::Column::Z), Perspective::IaIsDownAndPointsUpward),
+///     [2, 4]
+/// )
+/// ```
 #[must_use]
 pub fn to_relative_coord(coord: absolute::Coord, p: Perspective) -> relative::Coord {
     let (row, col) = coord;

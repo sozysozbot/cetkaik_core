@@ -524,13 +524,21 @@ pub fn rotate_board(b: Board) -> Board {
     ans
 }
 
+/// # Examples
+/// ```
+/// use cetkaik_core::relative::*;
+/// assert_eq!(5, distance([4,5], [4,0]));
+/// assert_eq!(3, distance([4,5], [1,2]));
+/// assert_eq!(3, distance([1,2], [4,5]));
+/// ```
 #[must_use]
-pub fn distance(a: Coord, b: Coord) -> i32 { 
+pub fn distance(a: Coord, b: Coord) -> i32 {
+    use std::convert::TryFrom;
     let [x1, y1] = a;
     let [x2, y2] = b;
 
-    let x_distance = (x1 as i32 - x2 as i32).abs();
-    let y_distance = (y1 as i32 - y2 as i32).abs();
+    let x_distance = (i32::try_from(x1).unwrap() - i32::try_from(x2).unwrap()).abs();
+    let y_distance = (i32::try_from(y1).unwrap() - i32::try_from(y2).unwrap()).abs();
 
     x_distance.max(y_distance)
 }
