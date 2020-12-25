@@ -3,9 +3,6 @@
 #[macro_use]
 extern crate maplit;
 
-#[cfg(test)]
-mod tests {}
-
 /// Denotes the color of a piece
 #[derive(PartialEq, Eq, Clone, Copy, Debug, Hash)]
 pub enum Color {
@@ -96,6 +93,17 @@ use std::str::FromStr;
 impl FromStr for Profession {
     type Err = ();
 
+    /// Parses [`Profession`](./enum.Profession.html).
+    /// # Examples
+    /// ```
+    /// use cetkaik_core::*;
+    ///
+    /// assert_eq!("船".parse(), Ok(Profession::Nuak1));
+    /// assert_eq!("elmer".parse(), Ok(Profession::Kauk2));
+    /// assert_eq!("车".parse(), Ok(Profession::Kaun1));
+    /// assert_eq!("uai1".parse(), Ok(Profession::Uai1));
+    /// ```
+    ///
     fn from_str(s: &str) -> Result<Self, Self::Err> {
         let s = s.to_lowercase();
         match &*s {

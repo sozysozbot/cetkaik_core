@@ -155,6 +155,28 @@ pub const fn to_relative_side(side: absolute::Side, p: Perspective) -> relative:
     }
 }
 
+/// Converts `absolute::Piece` into `relative::Piece`
+/// # Examples
+/// ```
+/// use cetkaik_core::*;
+/// use cetkaik_core::perspective::*;
+/// assert_eq!(
+///     to_relative_piece(absolute::Piece::Tam2, Perspective::IaIsDownAndPointsUpward),
+///     relative::Piece::Tam2
+/// );
+/// assert_eq!(
+///     to_relative_piece(absolute::Piece::NonTam2Piece {
+///         prof: Profession::Uai1,
+///         color: Color::Kok1,
+///         side: absolute::Side::IASide
+///     }, Perspective::IaIsDownAndPointsUpward),
+///     relative::Piece::NonTam2Piece {
+///         prof: Profession::Uai1,
+///         color: Color::Kok1,
+///         side: relative::Side::Upward
+///     }
+/// );
+/// ```
 #[must_use]
 pub const fn to_relative_piece(piece: absolute::Piece, p: Perspective) -> relative::Piece {
     match piece {
@@ -167,6 +189,28 @@ pub const fn to_relative_piece(piece: absolute::Piece, p: Perspective) -> relati
     }
 }
 
+/// Converts `relative::Piece` into `absolute::Piece`
+/// # Examples
+/// ```
+/// use cetkaik_core::*;
+/// use cetkaik_core::perspective::*;
+/// assert_eq!(
+///     to_absolute_piece(relative::Piece::Tam2, Perspective::IaIsDownAndPointsUpward),
+///     absolute::Piece::Tam2
+/// );
+/// assert_eq!(
+///     to_absolute_piece(relative::Piece::NonTam2Piece {
+///         prof: Profession::Uai1,
+///         color: Color::Kok1,
+///         side: relative::Side::Upward
+///     }, Perspective::IaIsDownAndPointsUpward),
+///     absolute::Piece::NonTam2Piece {
+///         prof: Profession::Uai1,
+///         color: Color::Kok1,
+///         side: absolute::Side::IASide
+///     }
+/// );
+/// ```
 #[must_use]
 pub const fn to_absolute_piece(piece: relative::Piece, p: Perspective) -> absolute::Piece {
     match piece {
