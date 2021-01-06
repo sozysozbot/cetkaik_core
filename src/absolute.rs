@@ -55,14 +55,8 @@ impl Piece {
 #[must_use]
 pub const fn is_water((row, col): Coord) -> bool {
     match row {
-        Row::O => match col {
-            Column::N | Column::T | Column::Z | Column::X | Column::C => true,
-            _ => false,
-        },
-        Row::I | Row::U | Row::Y | Row::AI => match col {
-            Column::Z => true,
-            _ => false,
-        },
+        Row::O => matches!(col, Column::N | Column::T | Column::Z | Column::X | Column::C),
+        Row::I | Row::U | Row::Y | Row::AI => matches!(col, Column::Z),
         _ => false,
     }
 }

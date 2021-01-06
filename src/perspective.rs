@@ -16,9 +16,9 @@ impl Perspective {
 #[must_use]
 pub fn to_absolute_board(board: &relative::Board, p: Perspective) -> absolute::Board {
     let mut ans = std::collections::HashMap::new();
-    for i in 0..8 {
-        for j in 0..8 {
-            if let Some(piece) = board[i][j] {
+    for (i, row) in board.iter().enumerate() {
+        for (j, sq) in row.iter().enumerate() {
+            if let Some(piece) = *sq {
                 ans.insert(to_absolute_coord([i, j], p), to_absolute_piece(piece, p));
             }
         }
@@ -40,10 +40,10 @@ pub fn to_relative_board(board: &absolute::Board, p: Perspective) -> relative::B
         [None, None, None, None, None, None, None, None, None],
     ];
 
-    for i in 0..8 {
-        for j in 0..8 {
+    for (i, row) in ans.iter_mut().enumerate() {
+        for (j, sq) in row.iter_mut().enumerate() {
             if let Some(piece) = board.get(&to_absolute_coord([i, j], p)) {
-                ans[i][j] = Some(to_relative_piece(*piece, p))
+                *sq = Some(to_relative_piece(*piece, p))
             }
         }
     }
