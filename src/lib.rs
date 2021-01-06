@@ -2,7 +2,6 @@
 #![allow(clippy::non_ascii_literal, clippy::use_self)]
 #[macro_use]
 extern crate maplit;
-
 /// Denotes the color of a piece
 #[derive(PartialEq, Eq, Clone, Copy, Debug, Hash)]
 pub enum Color {
@@ -151,3 +150,85 @@ pub mod absolute;
 
 /// Defines a perspective, with which you can transform between the absolute and the relative
 pub mod perspective;
+
+impl serde::ser::Serialize for Color {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::ser::Serializer,
+    {
+        serializer.serialize_str(serialize_color(*self))
+    }
+}
+
+impl serde::ser::Serialize for Profession {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::ser::Serializer,
+    {
+        serializer.serialize_str(serialize_prof(*self))
+    }
+}
+
+struct ColorVisitor;
+
+impl<'de> serde::de::Visitor<'de> for ColorVisitor {
+    type Value = Color;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(formatter, "a color")
+    }
+
+    fn visit_str<E>(self, s: &str) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        match Color::from_str(s) {
+            Ok(c) => Ok(c),
+            Err(_) => Err(serde::de::Error::invalid_value(
+                serde::de::Unexpected::Str(s),
+                &self,
+            )),
+        }
+    }
+}
+
+impl<'de> serde::de::Deserialize<'de> for Color {
+    fn deserialize<D>(deserializer: D) -> Result<Color, D::Error>
+    where
+        D: serde::de::Deserializer<'de>,
+    {
+        deserializer.deserialize_str(ColorVisitor)
+    }
+}
+
+struct ProfessionVisitor;
+
+impl<'de> serde::de::Visitor<'de> for ProfessionVisitor {
+    type Value = Profession;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(formatter, "a profession")
+    }
+
+    fn visit_str<E>(self, s: &str) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        match Profession::from_str(s) {
+            Ok(c) => Ok(c),
+            Err(_) => Err(serde::de::Error::invalid_value(
+                serde::de::Unexpected::Str(s),
+                &self,
+            )),
+        }
+    }
+}
+
+impl<'de> serde::de::Deserialize<'de> for Profession {
+    fn deserialize<D>(deserializer: D) -> Result<Profession, D::Error>
+    where
+        D: serde::de::Deserializer<'de>,
+    {
+        deserializer.deserialize_str(ProfessionVisitor)
+    }
+}
