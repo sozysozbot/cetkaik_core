@@ -230,7 +230,7 @@ pub const fn to_absolute_piece(piece: relative::Piece, p: Perspective) -> absolu
 /// use cetkaik_core::perspective::*;
 /// assert_eq!(
 ///     to_absolute_coord([2, 4], Perspective::IaIsDownAndPointsUpward),
-///     (absolute::Row::I, absolute::Column::Z)
+///     absolute::Coord(absolute::Row::I, absolute::Column::Z)
 /// )
 /// ```
 #[must_use]
@@ -273,7 +273,7 @@ pub fn to_absolute_coord(coord: relative::Coord, p: Perspective) -> absolute::Co
 /// use cetkaik_core::*;
 /// use cetkaik_core::perspective::*;
 /// assert_eq!(
-///     to_relative_coord((absolute::Row::I, absolute::Column::Z), Perspective::IaIsDownAndPointsUpward),
+///     to_relative_coord(absolute::Coord(absolute::Row::I, absolute::Column::Z), Perspective::IaIsDownAndPointsUpward),
 ///     [2, 4]
 /// )
 /// ```
