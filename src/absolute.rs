@@ -1,7 +1,7 @@
-use std::str::FromStr;
-
 use super::{Color, Profession};
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+use serde::{Deserialize, Serialize};
+use std::str::FromStr;
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Deserialize, Serialize)]
 pub enum Piece {
     Tam2,
     NonTam2Piece {
@@ -55,13 +55,16 @@ impl Piece {
 #[must_use]
 pub const fn is_water((row, col): Coord) -> bool {
     match row {
-        Row::O => matches!(col, Column::N | Column::T | Column::Z | Column::X | Column::C),
+        Row::O => matches!(
+            col,
+            Column::N | Column::T | Column::Z | Column::X | Column::C
+        ),
         Row::I | Row::U | Row::Y | Row::AI => matches!(col, Column::Z),
         _ => false,
     }
 }
 
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Deserialize, Serialize)]
 pub struct NonTam2Piece {
     pub color: Color,
     pub prof: Profession,
@@ -219,7 +222,7 @@ impl Field {
     }
 }
 
-#[derive(Eq, PartialEq, Clone, Copy, Debug, Hash)]
+#[derive(Eq, PartialEq, Clone, Copy, Debug, Hash, Deserialize, Serialize)]
 pub enum Side {
     ASide,
     IASide,
@@ -248,7 +251,7 @@ impl ops::Not for Side {
     }
 }
 
-#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
+#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug, Deserialize, Serialize)]
 pub enum Row {
     A,
     E,
@@ -261,7 +264,7 @@ pub enum Row {
     IA,
 }
 
-#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug)]
+#[derive(PartialEq, Eq, Hash, Clone, Copy, Debug, Deserialize, Serialize)]
 pub enum Column {
     K,
     L,

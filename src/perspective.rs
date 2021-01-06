@@ -1,6 +1,6 @@
 use crate::{absolute, relative};
-
-#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+use serde::{Deserialize, Serialize};
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Deserialize, Serialize)]
 pub enum Perspective {
     IaIsDownAndPointsUpward,
     IaIsUpAndPointsDownward,
