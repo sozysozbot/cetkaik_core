@@ -173,7 +173,7 @@ impl TryInto<NonTam2Piece> for &str {
 use std::collections::HashMap;
 pub type Board = HashMap<Coord, Piece>;
 
-#[derive(Clone, Debug, Eq, PartialEq)]
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Field {
     pub board: Board,
     pub a_side_hop1zuo1: Vec<NonTam2Piece>,
