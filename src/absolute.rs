@@ -53,7 +53,7 @@ impl Piece {
 }
 
 #[must_use]
-pub const fn is_water((row, col): Coord) -> bool {
+pub const fn is_water(Coord(row, col): Coord) -> bool {
     match row {
         Row::O => matches!(
             col,
@@ -277,7 +277,57 @@ pub enum Column {
     P,
 }
 
-pub type Coord = (Row, Column);
+#[derive(Clone, Debug, Eq, Hash, PartialEq)]
+pub struct Coord(pub Row, pub Column);
+
+impl serde::ser::Serialize for Coord {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::ser::Serializer,
+    {
+        serializer.serialize_str(&serialize_coord(*self))
+    }
+}
+
+struct CoordVisitor;
+
+impl<'de> serde::de::Visitor<'de> for CoordVisitor {
+    type Value = Coord;
+
+    fn expecting(&self, formatter: &mut std::fmt::Formatter) -> std::fmt::Result {
+        write!(formatter, "a coordinate")
+    }
+
+    fn visit_str<E>(self, s: &str) -> Result<Self::Value, E>
+    where
+        E: serde::de::Error,
+    {
+        match Coord::from_str(s) {
+            Ok(c) => Ok(c),
+            Err(_) => Err(serde::de::Error::invalid_value(
+                serde::de::Unexpected::Str(s),
+                &self,
+            )),
+        }
+    }
+}
+
+impl<'de> serde::de::Deserialize<'de> for Coord {
+    fn deserialize<D>(deserializer: D) -> Result<Coord, D::Error>
+    where
+        D: serde::de::Deserializer<'de>,
+    {
+        deserializer.deserialize_str(CoordVisitor)
+    }
+}
+
+impl FromStr for Coord {
+    type Err = ();
+
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        parse_coord(s).ok_or(())
+    }
+}
 
 /// Parses [`Coord`](type.Coord.html).
 /// # Examples
@@ -295,7 +345,7 @@ pub type Coord = (Row, Column);
 /// );
 /// ```
 #[must_use]
-pub fn parse_coord(coord: &str) -> Option<(Row, Column)> {
+pub fn parse_coord(coord: &str) -> Option<Coord> {
     if coord.is_empty() || coord.len() > 3 {
         return None;
     }
@@ -326,7 +376,7 @@ pub fn parse_coord(coord: &str) -> Option<(Row, Column)> {
         _ => None,
     }?;
 
-    Some((row, column))
+    Some(Coord(row, column))
 }
 
 #[must_use]
@@ -397,7 +447,7 @@ pub fn yhuap_initial_board() -> Board {
 ///
 #[must_use]
 pub fn serialize_coord(coord: Coord) -> String {
-    let (row, column) = coord;
+    let Coord(row, column) = coord;
     format!(
         "{}{}",
         match column {

@@ -261,7 +261,7 @@ pub fn to_absolute_coord(coord: relative::Coord, p: Perspective) -> absolute::Co
         absolute::Row::IA,
     ];
 
-    (
+    super::absolute::Coord(
         rows[if p.ia_is_down() { row } else { 8 - row }],
         columns[if p.ia_is_down() { col } else { 8 - col }],
     )
@@ -279,7 +279,7 @@ pub fn to_absolute_coord(coord: relative::Coord, p: Perspective) -> absolute::Co
 /// ```
 #[must_use]
 pub fn to_relative_coord(coord: absolute::Coord, p: Perspective) -> relative::Coord {
-    let (row, col) = coord;
+    let super::absolute::Coord(row, col) = coord;
 
     let columns_col = match col {
         absolute::Column::K => 0,
