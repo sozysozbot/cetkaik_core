@@ -430,7 +430,7 @@ pub fn yhuap_initial_board() -> Board {
         Coord(Row::E, Column::K) => Piece::NonTam2Piece {prof: Profession::Tuk2, color: Color::Kok1, side: Side::ASide},
         Coord(Row::A, Column::T) => Piece::NonTam2Piece {prof: Profession::Uai1, color: Color::Huok2, side: Side::ASide},
         Coord(Row::A, Column::X) => Piece::NonTam2Piece {prof: Profession::Uai1, color: Color::Kok1, side: Side::ASide},
-        Coord(Row::A, Column::Z) => Piece::NonTam2Piece {prof: Profession::Io, color: Color::Huok2, side: Side::ASide},
+        Coord(Row::A, Column::Z) => Piece::NonTam2Piece {prof: Profession::Io, color: Color::Kok1, side: Side::ASide},
     }
 }
 
