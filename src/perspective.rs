@@ -1,18 +1,34 @@
 use crate::{absolute, relative};
 use serde::{Deserialize, Serialize};
+/// Defines a perspective, with which you can transform between the absolute and the relative
+/// ／どちらの視点で見ているかを表現する型。
+/// 視点を固定すると、相対座標表現と絶対座標表現を相互変換することができる。
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Deserialize, Serialize)]
 pub enum Perspective {
+    /// IA is the lowermost row; 
+    /// the player who had occupied the IA row in the beginning of the game has pieces that point upward
+    /// (i.e. you) 
+    /// ／IAは一番下の行であり、初期状態でIA行を占有していたプレイヤーは駒が上向き（=あなた）である。
     IaIsDownAndPointsUpward,
+
+    /// IA is the uppermost row; 
+    /// the player who had occupied the IA row in the beginning of the game has pieces that point downward
+    /// (i.e. the opponent) 
+    /// ／IAは一番上の行であり、初期状態でIA行を占有していたプレイヤーは駒が下向き（=相手）である。
     IaIsUpAndPointsDownward,
 }
 
 impl Perspective {
+    /// Check if IA is the lowermost row
+    /// ／IAが一番下の行であるかどうかを判定する
     #[must_use]
     pub fn ia_is_down(self) -> bool {
         self == Perspective::IaIsDownAndPointsUpward
     }
 }
 
+/// Converts `relative::Board` into `absolute::Board`.
+/// ／`relative::Board` を `absolute::Board` に変換する。
 #[must_use]
 pub fn to_absolute_board(board: &relative::Board, p: Perspective) -> absolute::Board {
     let mut ans = std::collections::HashMap::new();
@@ -26,6 +42,8 @@ pub fn to_absolute_board(board: &relative::Board, p: Perspective) -> absolute::B
     ans
 }
 
+/// Converts `absolute::Board` into `relative::Board`.
+/// ／`absolute::Board` を `relative::Board` に変換する。
 #[must_use]
 pub fn to_relative_board(board: &absolute::Board, p: Perspective) -> relative::Board {
     let mut ans = [
@@ -50,6 +68,8 @@ pub fn to_relative_board(board: &absolute::Board, p: Perspective) -> relative::B
     ans
 }
 
+/// Converts `relative::Field` into `absolute::Field`.
+/// ／`relative::Field` を `absolute::Field` に変換する。
 #[must_use]
 pub fn to_absolute_field(field: relative::Field, p: Perspective) -> absolute::Field {
     let relative::Field {
@@ -106,6 +126,8 @@ pub fn to_absolute_field(field: relative::Field, p: Perspective) -> absolute::Fi
     }
 }
 
+/// Converts `absolute::Field` into `relative::Field`.
+/// ／`absolute::Field` を `relative::Field` に変換する。
 #[must_use]
 pub fn to_relative_field(field: absolute::Field, p: Perspective) -> relative::Field {
     let absolute::Field {
@@ -133,6 +155,8 @@ pub fn to_relative_field(field: absolute::Field, p: Perspective) -> relative::Fi
     }
 }
 
+/// Converts `relative::Side` into `absolute::Side`.
+/// ／`relative::Side` を `absolute::Side` に変換する。
 #[must_use]
 pub const fn to_absolute_side(side: relative::Side, p: Perspective) -> absolute::Side {
     match (side, p) {
@@ -145,6 +169,8 @@ pub const fn to_absolute_side(side: relative::Side, p: Perspective) -> absolute:
     }
 }
 
+/// Converts `absolute::Side` into `relative::Side`.
+/// ／`absolute::Side` を `relative::Side` に変換する。
 #[must_use]
 pub const fn to_relative_side(side: absolute::Side, p: Perspective) -> relative::Side {
     match (side, p) {
@@ -155,7 +181,8 @@ pub const fn to_relative_side(side: absolute::Side, p: Perspective) -> relative:
     }
 }
 
-/// Converts `absolute::Piece` into `relative::Piece`
+/// Converts `absolute::Piece` into `relative::Piece`.
+/// ／`absolute::Piece` を `relative::Piece` に変換する。
 /// # Examples
 /// ```
 /// use cetkaik_core::*;
