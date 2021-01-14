@@ -473,12 +473,12 @@ pub fn parse_coord(coord: &str) -> Option<Coord> {
 /// )
 /// ```
 /// 
-/// This function is consistent with `relative::yhuap_initial_board`:
+/// This function is consistent with `relative::yhuap_initial_board_where_black_king_points_upward`:
 /// 
 /// ```
 /// use cetkaik_core::{absolute, relative, perspective};
 /// assert_eq!(perspective::to_absolute_board(
-///     &relative::yhuap_initial_board(),
+///     &relative::yhuap_initial_board_where_black_king_points_upward(),
 ///     perspective::Perspective::IaIsDownAndPointsUpward
 /// ), absolute::yhuap_initial_board())
 /// ```

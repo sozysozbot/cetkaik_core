@@ -234,12 +234,22 @@ pub struct Field {
     pub hop1zuo1of_downward: Vec<NonTam2PieceDownward>,
 }
 
+#[deprecated(
+    since = "0.3.3",
+    note = "Please use the yhuap_initial_board_where_black_king_points_upward function instead"
+)]
+/// Deprecated. Please use the `yhuap_initial_board_where_black_king_points_upward` function instead.
+#[must_use]
+pub const fn yhuap_initial_board() -> Board {
+    yhuap_initial_board_where_black_king_points_upward()
+}
+
 /// Returns the initial configuration as specified in the y1 huap1 (the standardized rule). 
-/// The black king point upward (i.e. you)
+/// The black king points upward (i.e. you)
 /// ／官定で定められた初期配置を与える。黒王が自分側にある。
 #[must_use]
 #[allow(clippy::too_many_lines)]
-pub const fn yhuap_initial_board() -> Board {
+pub const fn yhuap_initial_board_where_black_king_points_upward() -> Board {
     [
         [
             Some(Piece::NonTam2Piece {
