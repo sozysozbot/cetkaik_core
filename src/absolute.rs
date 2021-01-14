@@ -1,16 +1,45 @@
 use super::{Color, Profession};
 use serde::{Deserialize, Serialize};
 use std::str::FromStr;
+
+/// Describes a piece on the board.
+/// ／盤上に存在できる駒を表現する。
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Deserialize, Serialize)]
 pub enum Piece {
+    /// Tam2, a special piece belonging to both sides. Both players can move it.
+    /// ／皇（たむ）。自分も相手も動かすことができる共有の駒である。
     Tam2,
+
+    /// All the other usual pieces that belong to a single side.
+    /// ／残りの全ての普通の駒。片方の陣営にのみ属する。
     NonTam2Piece {
+        /// color of the piece／駒の色
         color: Color,
+        /// profession of the piece／駒の職種
         prof: Profession,
+
+        /// which side the piece belongs to
+        /// ／駒の所属側。どちらの陣営に属しているのかを表す。
         side: Side,
     },
 }
 
+/// Calculates the distance between two points.
+/// The distance is defined as the larger of the difference between either the x or y coordinates.
+/// ／2点間の距離（x座標の差およびy座標の差のうち小さくない方）を計算する。
+///
+/// Examples:
+/// ```
+/// use cetkaik_core::absolute::{distance, Coord};
+/// use cetkaik_core::absolute::Row::*;
+/// use cetkaik_core::absolute::Column::*;
+///
+/// assert_eq!(2, distance(Coord(A, K), Coord(I, N)));
+/// assert_eq!(2, distance(Coord(I, K), Coord(I, N)));
+///
+/// // The standard cetkaik does not care about knight's moves, but is tested for the sake of consistency.
+/// assert_eq!(2, distance(Coord(A, K), Coord(E, N)));
+/// ```
 #[must_use]
 pub fn distance(a: Coord, b: Coord) -> i32 {
     use super::{perspective, relative};
@@ -22,6 +51,8 @@ pub fn distance(a: Coord, b: Coord) -> i32 {
 }
 
 impl Piece {
+    /// Checks whether the piece is a Tam2.
+    /// ／皇であるかどうかの判定
     #[must_use]
     pub const fn is_tam2(self) -> bool {
         match self {
@@ -29,6 +60,9 @@ impl Piece {
             Piece::NonTam2Piece { .. } => false,
         }
     }
+
+    /// Checks whether the piece has a specific color. Tam2 has neither color.
+    /// ／駒が特定の色であるかを調べる。皇は赤でも黒でもない。
     #[must_use]
     pub fn has_color(self, clr: Color) -> bool {
         match self {
@@ -36,6 +70,9 @@ impl Piece {
             Piece::NonTam2Piece { color, .. } => color == clr,
         }
     }
+
+    /// Checks whether the piece has a specific profession.
+    /// ／駒が特定の職種であるかを調べる。
     #[must_use]
     pub fn has_prof(self, prf: Profession) -> bool {
         match self {
@@ -43,6 +80,9 @@ impl Piece {
             Piece::NonTam2Piece { prof, .. } => prof == prf,
         }
     }
+
+    /// Checks whether the piece belongs to a specific side. Tam2 belongs to neither side.
+    /// ／駒が特定の側のプレイヤーに属するかどうかを調べる。皇はどちらの陣営にも属さない。
     #[must_use]
     pub fn has_side(self, sid: Side) -> bool {
         match self {
@@ -52,6 +92,8 @@ impl Piece {
     }
 }
 
+/// Checks if the square is a tam2 nua2 (tam2's water), entry to which is restricted.
+/// ／マスが皇水（たむぬあ）であるかどうかの判定
 #[must_use]
 pub const fn is_water(Coord(row, col): Coord) -> bool {
     match row {
@@ -64,9 +106,13 @@ pub const fn is_water(Coord(row, col): Coord) -> bool {
     }
 }
 
+/// Describes a piece that is not a Tam2, and hence can be taken and be placed in a hop1zuo1.
+/// ／駒のうち、皇以外を表す。これは手駒として存在できる駒でもある。
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash, Deserialize, Serialize)]
 pub struct NonTam2Piece {
+    /// color of the piece／駒の色
     pub color: Color,
+    /// profession of the piece／駒の職種
     pub prof: Profession,
 }
 
@@ -171,16 +217,28 @@ impl TryInto<NonTam2Piece> for &str {
 }
 
 use std::collections::HashMap;
+
+/// Describes the board, the 9x9 squares, in terms of absolute coordinates.
+/// 盤、つまり、9x9のマス目を、絶対座標で表す。
 pub type Board = HashMap<Coord, Piece>;
 
+/// Describes the field, which is defined as a board plus each side's hop1zuo1.
+/// フィールドを表す。フィールドとは、盤に両者の手駒を加えたものである。
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Field {
+    /// board／盤
     pub board: Board,
+
+    /// hop1zuo1 for the ASide／A側の手駒
     pub a_side_hop1zuo1: Vec<NonTam2Piece>,
+
+    /// hop1zuo1 for the IASide／IA側の手駒
     pub ia_side_hop1zuo1: Vec<NonTam2Piece>,
 }
 
 impl Field {
+    /// Add a piece to one's hop1zuo1.
+    /// ／手駒に駒を追加する。
     pub fn insert_nontam_piece_into_hop1zuo1(
         &mut self,
         color: Color,
@@ -192,6 +250,9 @@ impl Field {
             Side::IASide => self.ia_side_hop1zuo1.push(NonTam2Piece { color, prof }),
         }
     }
+
+    /// Remove a specified piece from one's hop1zuo1; if none is found, return `None`.
+    /// ／手駒から指定の駒を削除する。ないなら `None`。
     #[must_use]
     pub fn find_and_remove_piece_from_hop1zuo1(
         &self,
@@ -222,9 +283,16 @@ impl Field {
     }
 }
 
+/// Describes which player it is
+/// ／どちら側のプレイヤーであるかを指定する。
 #[derive(Eq, PartialEq, Clone, Copy, Debug, Hash, Deserialize, Serialize)]
 pub enum Side {
+    /// The player whose pieces lie in the A, E and I row when the game starts.
+    /// ／A側プレイヤー。初期状態でA, E, Iの三列に渡って自分の駒が配置されている。
     ASide,
+
+    /// The player whose pieces lie in the IA, AU and AI row when the game starts.
+    /// ／IA側プレイヤー。初期状態でIA, AU, AIの三列に渡って自分の駒が配置されている。
     IASide,
 }
 
@@ -251,7 +319,10 @@ impl ops::Not for Side {
     }
 }
 
+/// Describes the row.
+/// ／盤上の絶対座標のうち行（横列）を表す。
 #[derive(PartialEq, Eq, Hash, Clone, Copy, Debug, Deserialize, Serialize)]
+#[allow(missing_docs)]
 pub enum Row {
     A,
     E,
@@ -264,7 +335,10 @@ pub enum Row {
     IA,
 }
 
+/// Describes the column.
+/// ／盤上の絶対座標のうち列（縦列）を表す。
 #[derive(PartialEq, Eq, Hash, Clone, Copy, Debug, Deserialize, Serialize)]
+#[allow(missing_docs)]
 pub enum Column {
     K,
     L,
@@ -277,6 +351,8 @@ pub enum Column {
     P,
 }
 
+/// Describes the absolute coordinate.
+/// ／盤上の絶対座標を表す。
 #[derive(Clone, Debug, Eq, Hash, PartialEq, Copy)]
 pub struct Coord(pub Row, pub Column);
 
@@ -379,6 +455,33 @@ pub fn parse_coord(coord: &str) -> Option<Coord> {
     Some(Coord(row, column))
 }
 
+/// Returns the initial configuration as specified in the y1 huap1 (the standardized rule).
+/// As can be seen in <https://raw.githubusercontent.com/sozysozbot/cerke/master/y1_huap1_summary_en.pdf>,
+/// a black king is in ZIA while a red king is in ZA.
+/// ／官定で定められた初期配置を与える。
+/// <https://raw.githubusercontent.com/sozysozbot/cerke/master/y1_huap1_summary.pdf> にあるように、
+/// ZIAには黒王、ZAには赤王がある。
+/// 
+/// Example:
+/// ```
+/// use cetkaik_core::absolute::{yhuap_initial_board, Row, Column, Coord, Piece, Side};
+/// use cetkaik_core::{Color, Profession};
+/// assert_eq!(Some(&Piece::Tam2), yhuap_initial_board().get(&Coord(Row::O, Column::Z)));
+/// assert_eq!(
+///     &Piece::NonTam2Piece {prof: Profession::Io, color: Color::Huok2, side: Side::IASide},
+///     yhuap_initial_board().get(&Coord(Row::IA, Column::Z)).unwrap()
+/// )
+/// ```
+/// 
+/// This function is consistent with `relative::yhuap_initial_board`:
+/// 
+/// ```
+/// use cetkaik_core::{absolute, relative, perspective};
+/// assert_eq!(perspective::to_absolute_board(
+///     &relative::yhuap_initial_board(),
+///     perspective::Perspective::IaIsDownAndPointsUpward
+/// ), absolute::yhuap_initial_board())
+/// ```
 #[must_use]
 pub fn yhuap_initial_board() -> Board {
     hashmap! {

@@ -1,6 +1,6 @@
 //! Core data types and whatnot for cetkaik, a board game. See <https://sites.google.com/view/cet2kaik/the-standardized-rule-in-english> for more context.
 //! ／机戦（セットカイク）のための基本的なデータ型など。
-#![warn(clippy::pedantic, clippy::nursery)]
+#![warn(clippy::pedantic, clippy::nursery, missing_docs)]
 #![allow(clippy::non_ascii_literal, clippy::use_self)]
 #[macro_use]
 extern crate maplit;
