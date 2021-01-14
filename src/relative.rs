@@ -1,7 +1,15 @@
 use super::{Color, Profession};
+
+/// Describes which player it is
+/// ／どちら側のプレイヤーであるかを指定する。
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum Side {
+    /// The player whose pieces point upward in your perspective, i.e. yours.
+    /// ／君の視点で駒が上を向いている駒、つまり、君の駒。
     Upward,
+
+    /// The player whose pieces point downward in your perspective, i.e. the opponent's.
+    /// ／君の視点で駒が下を向いている駒、つまり、相手の駒。
     Downward,
 }
 
@@ -16,15 +24,23 @@ impl std::ops::Not for Side {
     }
 }
 
+/// Describes a piece that is not a Tam2 and points downward (i.e. opponents).
+/// ／駒のうち、皇ではなくて、下向き（つまり相手陣営）のものを表す。
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub struct NonTam2PieceDownward {
+    /// color of the piece／駒の色
     pub color: Color,
+    /// profession of the piece／駒の職種
     pub prof: Profession,
 }
 
+/// Describes a piece that is not a Tam2 and points upward (i.e. yours).
+/// ／駒のうち、皇ではなくて、上向き（つまり自分陣営）のものを表す。
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub struct NonTam2PieceUpward {
+    /// color of the piece／駒の色
     pub color: Color,
+    /// profession of the piece／駒の職種
     pub prof: Profession,
 }
 
@@ -48,17 +64,31 @@ impl From<NonTam2PieceDownward> for Piece {
     }
 }
 
+/// Describes a piece on the board.
+/// ／盤上に存在できる駒を表現する。
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub enum Piece {
+    /// Tam2, a special piece belonging to both sides. Both players can move it.
+    /// ／皇（たむ）。自分も相手も動かすことができる共有の駒である。
     Tam2,
+
+    /// All the other usual pieces that belong to a single side.
+    /// ／残りの全ての普通の駒。片方の陣営にのみ属する。
     NonTam2Piece {
+        /// color of the piece／駒の色
         color: Color,
+        /// profession of the piece／駒の職種
         prof: Profession,
+
+        /// which side the piece belongs to
+        /// ／駒の所属側。どちらの陣営に属しているのかを表す。
         side: Side,
     },
 }
 
 impl Piece {
+    /// Checks whether the piece is a Tam2.
+    /// ／皇であるかどうかの判定
     #[must_use]
     pub const fn is_tam2(self) -> bool {
         match self {
@@ -66,6 +96,9 @@ impl Piece {
             Piece::NonTam2Piece { .. } => false,
         }
     }
+
+    /// Checks whether the piece has a specific color. Tam2 has neither color.
+    /// ／駒が特定の色であるかを調べる。皇は赤でも黒でもない。
     #[must_use]
     pub fn has_color(self, clr: Color) -> bool {
         match self {
@@ -73,6 +106,9 @@ impl Piece {
             Piece::NonTam2Piece { color, .. } => color == clr,
         }
     }
+
+    /// Checks whether the piece has a specific profession.
+    /// ／駒が特定の職種であるかを調べる。
     #[must_use]
     pub fn has_prof(self, prf: Profession) -> bool {
         match self {
@@ -80,6 +116,9 @@ impl Piece {
             Piece::NonTam2Piece { prof, .. } => prof == prf,
         }
     }
+
+    /// Checks whether the piece belongs to a specific side. Tam2 belongs to neither side.
+    /// ／駒が特定の側のプレイヤーに属するかどうかを調べる。皇はどちらの陣営にも属さない。
     #[must_use]
     pub fn has_side(self, sid: Side) -> bool {
         match self {
@@ -90,7 +129,7 @@ impl Piece {
 }
 
 #[must_use]
-pub fn rotate_piece_or_null(p: Option<Piece>) -> Option<Piece> {
+fn rotate_piece_or_null(p: Option<Piece>) -> Option<Piece> {
     let p = p?;
     match p {
         Piece::Tam2 => Some(p),
@@ -118,11 +157,15 @@ pub fn serialize_coord(coord: Coord) -> String {
     format!("[{},{}]", coord[0], coord[1])
 }
 
+/// Rotates the coordinate with the center of the board as the center of rotation.
+/// ／盤の中心を基準に、座標を180度回転させる。
 #[must_use]
 pub const fn rotate_coord(c: Coord) -> Coord {
     [(8 - c[0]), (8 - c[1])]
 }
 
+/// Checks if the square is a tam2 nua2 (tam2's water), entry to which is restricted.
+/// ／マスが皇水（たむぬあ）であるかどうかの判定
 #[must_use]
 pub const fn is_water([row, col]: Coord) -> bool {
     (row == 4 && col == 2)
@@ -169,16 +212,31 @@ pub fn serialize_piece(p: Piece) -> String {
     }
 }
 
-pub type Board = [Row; 9];
-pub type Row = [Option<Piece>; 9];
+/// Describes the board, the 9x9 squares, in terms of relative coordinates.
+/// 盤、つまり、9x9のマス目を、相対座標で表す。
+pub type Board = [SingleRow; 9];
 
+/// Describes a single row made up of 9 squares.
+/// ／横一列の9マス、を表す。
+pub type SingleRow = [Option<Piece>; 9];
+
+/// Describes the field, which is defined as a board plus each side's hop1zuo1.
+/// フィールドを表す。フィールドとは、盤に両者の手駒を加えたものである。
 #[derive(Debug, Clone, Hash)]
 pub struct Field {
+    /// board／盤
     pub current_board: Board,
+
+    /// hop1zuo1 for the Upward (i.e. you)／Upward側（あなた）の手駒
     pub hop1zuo1of_upward: Vec<NonTam2PieceUpward>,
+
+    /// hop1zuo1 for the Downward (i.e. opponent)／Downward側（相手）の手駒
     pub hop1zuo1of_downward: Vec<NonTam2PieceDownward>,
 }
 
+/// Returns the initial configuration as specified in the y1 huap1 (the standardized rule). 
+/// The black king point upward (i.e. you)
+/// ／官定で定められた初期配置を与える。黒王が自分側にある。
 #[must_use]
 #[allow(clippy::too_many_lines)]
 pub const fn yhuap_initial_board() -> Board {
@@ -458,6 +516,8 @@ pub const fn yhuap_initial_board() -> Board {
 }
 
 impl Field {
+    /// Add a piece to one's hop1zuo1.
+    /// ／手駒に駒を追加する。
     pub fn insert_nontam_piece_into_hop1zuo1(
         &mut self,
         color: Color,
@@ -473,6 +533,9 @@ impl Field {
                 .push(NonTam2PieceDownward { color, prof }),
         }
     }
+
+    /// Remove a specified piece from one's hop1zuo1; if none is found, return `None`.
+    /// ／手駒から指定の駒を削除する。見当たらないなら `None`。
     #[must_use]
     pub fn find_and_remove_piece_from_hop1zuo1(
         &self,
@@ -503,6 +566,8 @@ impl Field {
     }
 }
 
+/// Rotates a board.
+/// ／盤を180度回転させ、自分陣営と相手陣営を入れ替える。
 #[must_use]
 pub fn rotate_board(b: Board) -> Board {
     let mut ans: Board = [

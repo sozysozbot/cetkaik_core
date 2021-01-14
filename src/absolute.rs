@@ -252,7 +252,7 @@ impl Field {
     }
 
     /// Remove a specified piece from one's hop1zuo1; if none is found, return `None`.
-    /// ／手駒から指定の駒を削除する。ないなら `None`。
+    /// ／手駒から指定の駒を削除する。見当たらないなら `None`。
     #[must_use]
     pub fn find_and_remove_piece_from_hop1zuo1(
         &self,
