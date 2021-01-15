@@ -234,17 +234,15 @@ pub struct Field {
     pub hop1zuo1of_downward: Vec<NonTam2PieceDownward>,
 }
 
-#[deprecated(
-    since = "0.3.3",
-    note = "Please use the yhuap_initial_board_where_black_king_points_upward function instead"
-)]
-/// Deprecated. Please use the `yhuap_initial_board_where_black_king_points_upward` function instead.
+/// Returns the initial configuration as specified in the y1 huap1 (the standardized rule).
+/// The red king points upward (i.e. you)
+/// ／官定で定められた初期配置を与える。赤王が自分側にある。
 #[must_use]
-pub const fn yhuap_initial_board() -> Board {
-    yhuap_initial_board_where_black_king_points_upward()
+pub fn yhuap_initial_board_where_red_king_points_upward() -> Board {
+    rotate_board(yhuap_initial_board_where_black_king_points_upward())
 }
 
-/// Returns the initial configuration as specified in the y1 huap1 (the standardized rule). 
+/// Returns the initial configuration as specified in the y1 huap1 (the standardized rule).
 /// The black king points upward (i.e. you)
 /// ／官定で定められた初期配置を与える。黒王が自分側にある。
 #[must_use]
