@@ -4,7 +4,7 @@
 #![allow(clippy::non_ascii_literal, clippy::use_self)]
 #[macro_use]
 extern crate maplit;
-/// Denotes the color of a piece
+/// Denotes the color of a piece／駒の色を表す。
 #[derive(PartialEq, Eq, Clone, Copy, Debug, Hash)]
 pub enum Color {
     /// Red, 赤
@@ -14,7 +14,7 @@ pub enum Color {
     Huok2,
 }
 
-/// Serializes [`Color`](./enum.Color.html).
+/// Serializes [`Color`](./enum.Color.html).／[`Color`](./enum.Color.html)を文字列に変換する。
 /// # Examples
 /// ```
 /// use cetkaik_core::*;
@@ -31,7 +31,7 @@ pub const fn serialize_color(color: Color) -> &'static str {
     }
 }
 
-/// Denotes the profession of a piece
+/// Denotes the profession of a piece／駒の職業を表す。
 #[derive(PartialEq, Eq, Clone, Copy, Debug, Hash)]
 pub enum Profession {
     /// Vessel, 船, felkana
@@ -65,7 +65,7 @@ pub enum Profession {
     Io,
 }
 
-/// Serializes [`Profession`](./enum.Profession.html).
+/// Serializes [`Profession`](./enum.Profession.html).／[`Profession`](./enum.Profession.html)を文字列にする。
 /// # Examples
 /// ```
 /// use cetkaik_core::*;
@@ -95,6 +95,7 @@ impl FromStr for Profession {
     type Err = ();
 
     /// Parses [`Profession`](./enum.Profession.html).
+    /// ／文字列を[`Profession`](./enum.Profession.html)にする。簡体字やリパライン語名などにも対応。
     /// # Examples
     /// ```
     /// use cetkaik_core::*;
@@ -144,13 +145,13 @@ impl FromStr for Color {
     }
 }
 
-/// Defines things in terms of relative view: "which piece is opponent's?"
+/// Defines things in terms of relative view: "which piece is opponent's?"／相対座標ベース。「どの駒が相手の駒？」という話をする
 pub mod relative;
 
-/// Defines things in the absolute term: "which piece lies in the square LIA?"
+/// Defines things in the absolute term: "which piece lies in the square LIA?"／絶対座標ベース。「LIAのマスにはどの駒がある？」という話をする
 pub mod absolute;
 
-/// Defines a perspective, with which you can transform between the absolute and the relative
+/// Defines a perspective, with which you can transform between the absolute and the relative／視点を定めることで、相対座標と絶対座標の間を変換できるようにする
 pub mod perspective;
 
 impl serde::ser::Serialize for Color {

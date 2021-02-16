@@ -217,6 +217,7 @@ pub const fn to_relative_piece(piece: absolute::Piece, p: Perspective) -> relati
 }
 
 /// Converts `relative::Piece` into `absolute::Piece`
+/// ／`relative::Piece` を `absolute::Piece` に変換する。
 /// # Examples
 /// ```
 /// use cetkaik_core::*;
@@ -251,6 +252,7 @@ pub const fn to_absolute_piece(piece: relative::Piece, p: Perspective) -> absolu
 }
 
 /// Converts `relative::Coord` into `absolute::Coord`
+/// ／`relative::Coord` を `absolute::Coord` に変換する。
 /// # Examples
 /// ```
 /// use cetkaik_core::*;
@@ -295,6 +297,7 @@ pub fn to_absolute_coord(coord: relative::Coord, p: Perspective) -> absolute::Co
 }
 
 /// Converts `absolute::Coord` into `relative::Coord`
+/// ／`absolute::Coord` を `relative::Coord` に変換する。
 /// # Examples
 /// ```
 /// use cetkaik_core::*;

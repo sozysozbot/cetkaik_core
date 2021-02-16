@@ -219,11 +219,11 @@ impl TryInto<NonTam2Piece> for &str {
 use std::collections::HashMap;
 
 /// Describes the board, the 9x9 squares, in terms of absolute coordinates.
-/// 盤、つまり、9x9のマス目を、絶対座標で表す。
+/// ／盤、つまり、9x9のマス目を、絶対座標で表す。
 pub type Board = HashMap<Coord, Piece>;
 
 /// Describes the field, which is defined as a board plus each side's hop1zuo1.
-/// フィールドを表す。フィールドとは、盤に両者の手駒を加えたものである。
+/// ／フィールドを表す。フィールドとは、盤に両者の手駒を加えたものである。
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Field {
     /// board／盤
@@ -405,7 +405,7 @@ impl FromStr for Coord {
     }
 }
 
-/// Parses [`Coord`](type.Coord.html).
+/// Parses [`Coord`](type.Coord.html). ／ 文字列を[`Coord`](type.Coord.html)にする。
 /// # Examples
 /// ```
 /// use cetkaik_core::absolute::*;
@@ -462,7 +462,7 @@ pub fn parse_coord(coord: &str) -> Option<Coord> {
 /// <https://raw.githubusercontent.com/sozysozbot/cerke/master/y1_huap1_summary.pdf> にあるように、
 /// ZIAには黒王、ZAには赤王がある。
 /// 
-/// Example:
+/// # Examples
 /// ```
 /// use cetkaik_core::absolute::{yhuap_initial_board, Row, Column, Coord, Piece, Side};
 /// use cetkaik_core::{Color, Profession};
@@ -537,7 +537,7 @@ pub fn yhuap_initial_board() -> Board {
     }
 }
 
-/// Serializes [`Coord`](../type.Coord.html).
+/// Serializes [`Coord`](../type.Coord.html).／[`Coord`](../type.Coord.html)を文字列にする。
 /// # Examples
 /// ```
 /// use cetkaik_core::absolute::*;

@@ -141,10 +141,13 @@ fn rotate_piece_or_null(p: Option<Piece>) -> Option<Piece> {
     }
 }
 
-/// [row, col]
+/// Denotes the position of a square by [row, col].
+/// ／マス目の相対座標を [row, col] で表す。
+/// 
 pub type Coord = [usize; 2];
 
 /// Serializes [`Coord`](./type.Coord.html) in JSON-style.
+/// ／[`Coord`](./type.Coord.html) を JSON スタイルで文字列にする。
 /// # Examples
 /// ```
 /// use cetkaik_core::*;
@@ -187,6 +190,7 @@ const fn serialize_side(side: Side) -> &'static str {
 }
 
 /// Serializes [`Piece`](./enum.Piece.html).
+/// ／[`Piece`](./enum.Piece.html) を文字列にする。
 /// # Examples
 /// ```
 /// use cetkaik_core::*;
@@ -213,7 +217,7 @@ pub fn serialize_piece(p: Piece) -> String {
 }
 
 /// Describes the board, the 9x9 squares, in terms of relative coordinates.
-/// 盤、つまり、9x9のマス目を、相対座標で表す。
+/// ／盤、つまり、9x9のマス目を、相対座標で表す。
 pub type Board = [SingleRow; 9];
 
 /// Describes a single row made up of 9 squares.
@@ -221,7 +225,7 @@ pub type Board = [SingleRow; 9];
 pub type SingleRow = [Option<Piece>; 9];
 
 /// Describes the field, which is defined as a board plus each side's hop1zuo1.
-/// フィールドを表す。フィールドとは、盤に両者の手駒を加えたものである。
+/// ／フィールドを表す。フィールドとは、盤に両者の手駒を加えたものである。
 #[derive(Debug, Clone, Hash)]
 pub struct Field {
     /// board／盤
@@ -597,6 +601,9 @@ pub fn rotate_board(b: Board) -> Board {
     ans
 }
 
+/// Calculates the distance between two points.
+/// The distance is defined as the larger of the difference between either the x or y coordinates.
+/// ／2点間の距離（x座標の差およびy座標の差のうち小さくない方）を計算する。
 /// # Examples
 /// ```
 /// use cetkaik_core::relative::*;
