@@ -611,6 +611,10 @@ pub fn rotate_board(b: Board) -> Board {
 /// assert_eq!(3, distance([4,5], [1,2]));
 /// assert_eq!(3, distance([1,2], [4,5]));
 /// ```
+/// 
+/// # Panics
+/// Panics if the `Coord` is so invalid that it does not fit in `i32`.
+/// ／`Coord` に入っている座標が `i32` に収まらないほど巨大であれば panic する。
 #[must_use]
 pub fn distance(a: Coord, b: Coord) -> i32 {
     use std::convert::TryFrom;
