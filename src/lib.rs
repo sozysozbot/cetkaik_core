@@ -1,7 +1,7 @@
 //! Core data types and whatnot for cetkaik, a board game. See <https://sites.google.com/view/cet2kaik/the-standardized-rule-in-english> for more context.
 //! ／机戦（セットカイク）のための基本的なデータ型など。
 #![warn(clippy::pedantic, clippy::nursery, missing_docs)]
-#![allow(clippy::non_ascii_literal, clippy::use_self)]
+#![allow(clippy::non_ascii_literal, clippy::use_self, clippy::upper_case_acronyms)]
 #[macro_use]
 extern crate maplit;
 /// Denotes the color of a piece／駒の色を表す。
