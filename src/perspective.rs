@@ -22,8 +22,8 @@ impl Perspective {
     /// Check if IA is the lowermost row
     /// ／IAが一番下の行であるかどうかを判定する
     #[must_use]
-    pub fn ia_is_down(self) -> bool {
-        self == Perspective::IaIsDownAndPointsUpward
+    pub const fn ia_is_down(self) -> bool {
+        matches!(self, Perspective::IaIsDownAndPointsUpward)
     }
 }
 
@@ -308,7 +308,7 @@ pub fn to_absolute_coord(coord: relative::Coord, p: Perspective) -> absolute::Co
 /// )
 /// ```
 #[must_use]
-pub fn to_relative_coord(coord: absolute::Coord, p: Perspective) -> relative::Coord {
+pub const fn to_relative_coord(coord: absolute::Coord, p: Perspective) -> relative::Coord {
     let super::absolute::Coord(row, col) = coord;
 
     let columns_col = match col {
