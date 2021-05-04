@@ -242,8 +242,8 @@ impl<'de> serde::de::Deserialize<'de> for Profession {
 macro_rules! cp {
     ($c:tt, $p:tt) => {
         NonTam2Piece {
-            prof: p!($p),
-            color: c!($c),
+            prof: prof!($p),
+            color: color!($c),
         }
     };
 }
