@@ -235,3 +235,73 @@ impl<'de> serde::de::Deserialize<'de> for Profession {
         deserializer.deserialize_str(ProfessionVisitor)
     }
 }
+
+/// A shortcut macro for creating `NonTam2Piece`, which is essentially a tuple of the color and the profession.
+/// ／`NonTam2Piece` を楽に構築するためのマクロ。
+#[macro_export]
+macro_rules! cp {
+    ($c:tt, $p:tt) => {
+        NonTam2Piece {
+            prof: p!($p),
+            color: c!($c),
+        }
+    };
+}
+
+/// A shortcut macro for creating `Profession`.
+/// ／`Profession` を楽に構築するためのマクロ。 
+#[macro_export]
+macro_rules! prof {
+    ('船') => {
+        Profession::Nuak1
+    };
+
+    ('兵') => {
+        Profession::Kauk2
+    };
+
+    ('弓') => {
+        Profession::Gua2
+    };
+
+    ('車') => {
+        Profession::Kaun1
+    };
+
+    ('虎') => {
+        Profession::Dau2
+    };
+
+    ('馬') => {
+        Profession::Maun1
+    };
+
+    ('筆') => {
+        Profession::Kua2
+    };
+
+    ('巫') => {
+        Profession::Tuk2
+    };
+
+    ('将') => {
+        Profession::Uai1
+    };
+
+    ('王') => {
+        Profession::Io
+    };
+}
+
+
+/// A shortcut macro for creating `Color`.
+/// ／`Color` を楽に構築するためのマクロ。
+#[macro_export]
+macro_rules! color {
+    ('黒') => {
+        Color::Huok2
+    };
+    ('赤') => {
+        Color::Kok1
+    };
+}
